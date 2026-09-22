@@ -1,4 +1,4 @@
-package com.kingdom.gnome.presentation;
+package com.kingdom.gnome.presentation.menu;
 
 import com.sun.tools.javac.Main;
 

@@ -15,6 +15,16 @@ public final class Gnome {
     public GnomeRole getRole() { return role; }
     public Email getEmail() { return email; }
 
+    @Override
+    public String toString() {
+        return "Gnome{" +
+                "name='" + name + '\'' +
+                ", role=" + role.getTitle() +
+                ", base stamina= " + role.getBaseStamina() +
+                ", email=" + email +
+                '}';
+    }
+
     public static GnomeBuilder builder() { return new GnomeBuilder(); }
 
     public static class GnomeBuilder {

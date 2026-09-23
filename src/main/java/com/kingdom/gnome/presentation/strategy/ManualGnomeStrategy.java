@@ -65,3 +65,29 @@ public class ManualGnomeStrategy implements InputStrategy {
             System.out.println("Роль не может быть пустой.");
         }
     }
+    private double readHeight() {
+
+        while (true) {
+            System.out.print("Введите рост гнома в сантиметрах: ");
+
+            String input = scanner.nextLine();
+
+            try {
+                double height = Double.parseDouble(input);
+
+                if (height > 0 && height <= 300) {
+                    return height;
+                }
+
+                System.out.println(
+                        "Рост должен быть от 0 до 300 см."
+                );
+
+            } catch (NumberFormatException e) {
+                System.out.println(
+                        "Ошибка: введите число."
+                );
+            }
+        }
+    }
+}

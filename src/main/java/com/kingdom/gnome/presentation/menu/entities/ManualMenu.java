@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class ManualMenu extends Menu {
     private final GnomeCreationStrategy strategy;
-    private final List<Gnome> gnomes; // Ссылка на общую армию
+    private final List<Gnome> gnomes; 
 
     public ManualMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes) {
         super(routeID);
@@ -50,9 +50,9 @@ public class ManualMenu extends Menu {
                     }
                 }
                 System.out.println("--------------------");
-                yield MenuRoutes.MANUAL; // Остаемся в этом же меню
+                yield MenuRoutes.MANUAL;
             }
-            case 3 -> MenuRoutes.MAIN; // Уходим на главное меню
+            case 3 -> MenuRoutes.MAIN;
 
             default -> {
                 System.out.println("Неизвестная команда. Попробуй еще раз.");

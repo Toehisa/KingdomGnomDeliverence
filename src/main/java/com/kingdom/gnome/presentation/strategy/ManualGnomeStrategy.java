@@ -1,13 +1,40 @@
-package com.kingdom.gnome.presentation.strategy;
+package com.example.sorting.input;
 
-import com.kingdom.gnome.dao.entity.Gnome;
+import com.example.sorting.collection.GnomeCollection;
+import com.example.sorting.model.Gnome;
 
-import java.util.List;
 import java.util.Scanner;
 
-public class ManualGnomeStrategy implements GnomeCreationStrategy {
+public class ManualGnomeStrategy implements InputStrategy {
+
+    private final Scanner scanner;
+
+    public ManualInputStrategy(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     @Override
-    public List<Gnome> create(Scanner scanner) {
-        return null;
+    public GnomeCollection read(int size) {
+
+        GnomeCollection gnomes = new GnomeCollection();
+
+        for (int i = 0; i < size; i++) {
+
+            System.out.println("\nГном №" + (i + 1));
+
+            String name = readName();
+            String role = readRole();
+            double height = readHeight();
+
+            Gnome gnome = new Gnome.Builder()
+                    .name(name)
+                    .role(role)
+                    .height(height)
+                    .build();
+
+            gnomes.add(gnome);
+        }
+
+        return gnomes;
     }
 }

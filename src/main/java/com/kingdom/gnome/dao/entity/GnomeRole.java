@@ -23,4 +23,14 @@ public enum GnomeRole {
     public int getBaseStamina() {
         return baseStamina;
     }
+
+    public static GnomeRole fromTitle(String title) {
+        for (GnomeRole role : values()) {
+            if (role.title.equalsIgnoreCase(title)) {
+                return role;
+            }
+        }
+
+        throw new IllegalArgumentException("Неизвестная роль: " + title);
+    }
 }

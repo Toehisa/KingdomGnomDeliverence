@@ -6,6 +6,7 @@ import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
 import com.kingdom.gnome.presentation.strategy.ManualGnomeStrategy;
 import com.kingdom.gnome.presentation.strategy.RandomGnomeStrategy;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,13 +22,18 @@ public class Launcher {
             System.out.println("Нажмите нужную цифру:");
 
             GnomeCreationStrategy strategy = prostoGnomikStrategySelector(scanner);
+            List<Gnome> gnomes = strategy.create(scanner);
+
+            System.out.println(gnomes);
 
         }
     }
 
     // пока от балды, на первый раз
     static GnomeCreationStrategy prostoGnomikStrategySelector(Scanner scanner) {
-        return switch (scanner.nextInt()) {
+        int choice = Integer.parseInt(scanner.nextLine().trim());
+
+        return switch (choice) {
             case 1 -> new RandomGnomeStrategy();
             case 2 -> new ManualGnomeStrategy();
             case 3 -> new FileGnomeStrategy();

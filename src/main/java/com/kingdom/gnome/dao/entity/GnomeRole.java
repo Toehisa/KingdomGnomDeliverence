@@ -24,6 +24,12 @@ public enum GnomeRole {
         return baseStamina;
     }
 
+    @Override
+    public String toString() {
+        return "title: " + this.title +
+                "baseStamina: " + this.baseStamina;
+    }
+
     public static GnomeRole fromTitle(String title) {
         for (GnomeRole role : values()) {
             if (role.title.equalsIgnoreCase(title)) {

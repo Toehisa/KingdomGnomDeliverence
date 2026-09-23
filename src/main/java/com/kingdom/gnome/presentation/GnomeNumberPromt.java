@@ -11,17 +11,12 @@ public class GnomeNumberPromt {
         this.scanner = scanner;
     }
 
-//    public GnomeNumberPromt(String promptMsg) {
-//        this(promptMsg, new Scanner(System.in));
-//    }
-
     public int getCount() {
         while(true) {
             System.out.println(promptMsg);
-            String input = scanner.nextLine().trim();
 
             try {
-                int count = Integer.parseInt(input);
+                int count = scanner.nextInt();
 
                 if(count >= 0){
                     return count;

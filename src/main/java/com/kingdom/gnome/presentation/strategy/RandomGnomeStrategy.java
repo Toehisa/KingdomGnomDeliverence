@@ -10,5 +10,5 @@ public class RandomGnomeStrategy implements GnomeCreationStrategy {
     public List<Gnome> create(Scanner scanner) {
         return null;
     }
-    //Рандомные гномы
+    //Рандомные гномы 2
 }

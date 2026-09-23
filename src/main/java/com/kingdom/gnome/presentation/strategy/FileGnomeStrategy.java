@@ -22,12 +22,12 @@ public class FileGnomeStrategy implements GnomeCreationStrategy{
             System.out.println("Отмена операции.");
             return null;
         }
+        scanner.nextLine(); // Съедаем \n при переходе на чтение файла
 
         String filename;
         while (true) {
             System.out.println("Введите имя файла (или 0 для выхода)");
             System.out.print(">> ");
-            //Scanner scanner = new Scanner(System.in);
             filename = scanner.nextLine().trim();
             if(filename.isEmpty()) {
                 System.out.println("Ошибка: имя файла не может быть пустым.");

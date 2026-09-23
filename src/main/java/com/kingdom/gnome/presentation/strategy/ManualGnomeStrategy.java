@@ -51,3 +51,17 @@ public class ManualGnomeStrategy implements InputStrategy {
             System.out.println("Имя не может быть пустым.");
         }
     }
+    private String readRole() {
+
+        while (true) {
+            System.out.print("Введите роль гнома: ");
+
+            String role = scanner.nextLine().trim();
+
+            if (!role.isEmpty()) {
+                return role;
+            }
+
+            System.out.println("Роль не может быть пустой.");
+        }
+    }

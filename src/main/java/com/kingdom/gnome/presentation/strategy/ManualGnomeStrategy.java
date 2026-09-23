@@ -37,4 +37,17 @@ public class ManualGnomeStrategy implements InputStrategy {
 
         return gnomes;
     }
-}
+    private String readName() {
+
+        while (true) {
+            System.out.print("Введите имя гнома: ");
+
+            String name = scanner.nextLine().trim();
+
+            if (!name.isEmpty()) {
+                return name;
+            }
+
+            System.out.println("Имя не может быть пустым.");
+        }
+    }

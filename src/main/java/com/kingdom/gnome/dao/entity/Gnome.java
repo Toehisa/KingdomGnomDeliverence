@@ -19,7 +19,8 @@ public final class Gnome {
     public String toString() {
         return "Gnome{" +
                 "name='" + name + '\'' +
-                ", role=" + role +
+                ", role=" + role.getTitle() +
+                ", base stamina= " + role.getBaseStamina() +
                 ", email=" + email +
                 '}';
     }

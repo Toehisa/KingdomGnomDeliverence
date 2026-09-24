@@ -22,10 +22,10 @@ public class MainMenuProvider extends MenuProvider {
     @Override
     public Map<MenuRoutes, Menu> provideMenus() {
         return Map.of(
-                MenuRoutes.MAIN, new MainMenu(MenuRoutes.MAIN),
-                MenuRoutes.RANDOM, new RandomMenu(MenuRoutes.RANDOM, new RandomGnomeStrategy(), gnomes),
+                MenuRoutes.MAIN, new MainMenu(MenuRoutes.MAIN, inputReader),
+                MenuRoutes.RANDOM, new RandomMenu(MenuRoutes.RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
                 MenuRoutes.MANUAL, new ManualMenu(MenuRoutes.MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
-                MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes)
+                MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes, inputReader)
         );
     }
 }

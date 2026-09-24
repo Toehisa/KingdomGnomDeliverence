@@ -1,8 +1,9 @@
-package com.kingdom.gnome.service.sorting;
+package sort;
 
 import com.kingdom.gnome.dao.entity.Email;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.entity.GnomeRole;
+import com.kingdom.gnome.service.sorting.MergeSort;
 import org.junit.jupiter.api.Test;
 
 import java.util.Comparator;

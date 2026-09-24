@@ -27,4 +27,25 @@ public class GnomeSortService {
                         )
         );
     }
+public void sort(List<Gnome> gnomes, int choice) {
+
+    switch (choice) {
+
+        case 1:
+            sortByName(gnomes);
+            break;
+
+        case 2:
+            sortByRole(gnomes);
+            break;
+
+        case 3:
+            sortByNameAndRole(gnomes);
+            break;
+
+        default:
+            throw new IllegalArgumentException(
+                    "Неизвестный вариант сортировки"
+            );
+    }
 }

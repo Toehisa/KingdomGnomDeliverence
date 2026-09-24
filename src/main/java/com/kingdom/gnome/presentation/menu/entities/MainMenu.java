@@ -21,7 +21,7 @@ public class MainMenu extends Menu{
 
     @Override
     public MenuRoutes execute(Scanner scanner) {
-        int num = scanner.nextInt();
+        int num = readInteger(scanner);
         return switch (num) {
             case 1 -> MenuRoutes.RANDOM;
             case 2 -> MenuRoutes.MANUAL;
@@ -29,5 +29,20 @@ public class MainMenu extends Menu{
             case 5 -> MenuRoutes.EXIT;
             default -> MenuRoutes.EXCEPTION;
         };
+    }
+    private int readInteger(Scanner scanner) {
+
+        while (true) {
+
+            System.out.print("Твой выбор: ");
+
+            String input = scanner.nextLine().trim();
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Ты мне вводи цифры, а не буквы");
+            }
+        }
     }
 }

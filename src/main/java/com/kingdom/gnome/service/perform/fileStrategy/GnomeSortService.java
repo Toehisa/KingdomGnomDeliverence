@@ -12,3 +12,10 @@ public class GnomeSortService {
                 Comparator.comparing(Gnome::getName)
         );
     }
+    public void sortByRole(List<Gnome> gnomes) {
+        gnomes.sort(
+                Comparator.comparing(
+                        gnome -> gnome.getRole().getTitle()
+                )
+        );
+    }

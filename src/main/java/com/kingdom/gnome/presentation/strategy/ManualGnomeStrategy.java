@@ -14,12 +14,33 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
         List<Gnome> gnomes = new java.util.ArrayList<>();
 
-        System.out.print("Введите количество гномов: ");
-        int count = Integer.parseInt(scanner.nextLine());
+        int count;
 
+        while (true) {
+
+            System.out.print("Введите количество выдуваемых жидких гномов: ");
+
+            String input = scanner.nextLine().trim();
+
+            try {
+                count = Integer.parseInt(input);
+
+                if (count <= 0) {
+                    System.out.println("Количество выдуваемых жидких гномов должно быть больше нуля.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Введите количество выдуваемых жидких гномов цифрами.");
+            }
+        }
+
+        // Создание гномов
         for (int i = 0; i < count; i++) {
 
-            System.out.printf("\nГном №%d%n", i + 1);
+            System.out.printf("%nГном №%d%n", i + 1);
 
             String name = readName(scanner);
 
@@ -30,30 +51,35 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
             for (int j = 0; j < roles.length; j++) {
                 System.out.printf("%d. %s%n", j + 1, roles[j].getTitle());
             }
-            GnomeRole role;
+
+            int roleNumber;
 
             while (true) {
 
-                System.out.print("Ваш выбор: ");
+                System.out.print("Введите номер роли: ");
+
+                String input = scanner.nextLine().trim();
 
                 try {
-                    int choice = Integer.parseInt(
-                            scanner.nextLine()
-                    );
+                    roleNumber = Integer.parseInt(input);
 
-                    if (choice >= 1 && choice <= roles.length) {
-                        role = roles[choice - 1];
-                        break;
+                    if (roleNumber < 1 || roleNumber > roles.length) {
+                        System.out.println(
+                                "Ошибка: выберите номер роли из списка."
+                        );
+                        continue;
                     }
 
-                    System.out.printf("Выберите число от 1 до %d%n", roles.length);
+                    break;
 
                 } catch (NumberFormatException e) {
                     System.out.println(
-                            "Введите номер роли."
+                            "Ошибка: введите номер роли цифрами."
                     );
                 }
             }
+
+            GnomeRole role = roles[roleNumber - 1];
 
             Gnome gnome = Gnome.builder()
                     .name(name)
@@ -61,6 +87,8 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
                     .build();
 
             gnomes.add(gnome);
+
+            System.out.println("Гном успешно создан!");
         }
 
         return gnomes;

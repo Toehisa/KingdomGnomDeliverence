@@ -1,14 +1,14 @@
 package com.kingdom.gnome.presentation;
 
-import java.util.Scanner;
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 public class GnomeNumberPromt {
     private final String promptMsg;
-    private final Scanner scanner;
+    private final ConsoleInputReader inputReader;
 
-    public GnomeNumberPromt(String promptMsg, Scanner scanner) {
+    public GnomeNumberPromt(String promptMsg, ConsoleInputReader inputReader) {
         this.promptMsg = promptMsg;
-        this.scanner = scanner;
+        this.inputReader = inputReader;
     }
 
     public int getCount() {
@@ -16,7 +16,7 @@ public class GnomeNumberPromt {
             System.out.println(promptMsg);
 
             try {
-                int count = scanner.nextInt();
+                int count = inputReader.readInteger();
 
                 if(count >= 0){
                     return count;

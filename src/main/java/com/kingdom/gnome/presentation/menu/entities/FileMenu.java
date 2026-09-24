@@ -23,12 +23,11 @@ public class FileMenu extends Menu {
         System.out.println("1. Десериализовать гомогомгномов из файла");
         System.out.println("2. Посмотреть список гномов");
         System.out.println("3. На главную");
-        System.out.print("Твой выбор: ");
     }
 
     @Override
     public MenuRoutes execute(Scanner scanner) {
-        var num = scanner.nextInt();
+        int num = readInteger(scanner);
 
         return switch (num) {
             case 1 -> {
@@ -59,5 +58,27 @@ public class FileMenu extends Menu {
                 yield MenuRoutes.FILE;
             }
         };
+    }
+    private int readInteger(Scanner scanner) {
+
+        while (true) {
+
+            System.out.print("Твой выбор: ");
+
+            String input = scanner.next();
+
+            try {
+                int number = Integer.parseInt(input);
+
+                scanner.nextLine();
+
+                return number;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Ты мне вводи цифры, а не буквы.");
+
+                scanner.nextLine();
+            }
+        }
     }
 }

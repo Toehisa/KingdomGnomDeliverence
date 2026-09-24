@@ -19,7 +19,7 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
         for (int i = 0; i < count; i++) {
 
-            System.out.println("\nГном №" + (i + 1));
+            System.out.printf("\nГном №%d%n", i + 1);
 
             System.out.print("Введите имя гнома: ");
             String name = scanner.nextLine().trim();
@@ -29,7 +29,41 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
             GnomeRole[] roles = GnomeRole.values();
 
             for (int j = 0; j < roles.length; j++) {
-                System.out.println(
-                        (j + 1) + ". " + roles[j].getTitle()
-                );
+                System.out.printf("%d. %s%n", j + 1, roles[j].getTitle());
             }
+            GnomeRole role;
+
+            while (true) {
+
+                System.out.print("Ваш выбор: ");
+
+                try {
+                    int choice = Integer.parseInt(
+                            scanner.nextLine()
+                    );
+
+                    if (choice >= 1 && choice <= roles.length) {
+                        role = roles[choice - 1];
+                        break;
+                    }
+
+                    System.out.printf("Выберите число от 1 до %d%n", roles.length);
+
+                } catch (NumberFormatException e) {
+                    System.out.println(
+                            "Введите номер роли."
+                    );
+                }
+            }
+
+            Gnome gnome = Gnome.builder()
+                    .name(name)
+                    .role(role)
+                    .build();
+
+            gnomes.add(gnome);
+        }
+
+        return gnomes;
+    }
+}

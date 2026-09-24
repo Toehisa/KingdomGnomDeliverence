@@ -3,6 +3,7 @@ package com.kingdom.gnome.presentation.menu.entities;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
+import com.kingdom.gnome.service.perform.fileStrategy.GnomeSortService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -39,7 +40,23 @@ public class ManualMenu extends Menu {
                     gnomes.addAll(freshGnomes);
                     System.out.println("Ручной продув успех, выдавлены из пробирки!");
                 }
-                yield MenuRoutes.MANUAL;
+                GnomeSortService sortService = new GnomeSortService();
+
+                System.out.println("\n--- Сортировка орды гномов ---");
+                System.out.println("1. По величанию");
+                System.out.println("2. По иерархии");
+                System.out.println("3. По величанию и иерархии");
+                System.out.print("Твой выбор предводитель: ");
+
+                int sortChoice = Integer.parseInt(scanner.nextLine());
+
+                sortService.sort(gnomes, sortChoice);
+
+                System.out.println("\nТвоя армия после сортировки:");
+
+                gnomes.forEach(System.out::println);
+
+                            yield MenuRoutes.MANUAL;
             }
             case 2 -> {
                 System.out.println("--- Состав армии ---");

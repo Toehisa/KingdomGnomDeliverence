@@ -12,6 +12,7 @@ public class GnomeSortService {
                 Comparator.comparing(Gnome::getName)
         );
     }
+
     public void sortByRole(List<Gnome> gnomes) {
         gnomes.sort(
                 Comparator.comparing(
@@ -19,6 +20,7 @@ public class GnomeSortService {
                 )
         );
     }
+
     public void sortByNameAndRole(List<Gnome> gnomes) {
         gnomes.sort(
                 Comparator.comparing(Gnome::getName)
@@ -27,25 +29,27 @@ public class GnomeSortService {
                         )
         );
     }
-public void sort(List<Gnome> gnomes, int choice) {
 
-    switch (choice) {
+    public void sort(List<Gnome> gnomes, int choice) {
 
-        case 1:
-            sortByName(gnomes);
-            break;
+        switch (choice) {
 
-        case 2:
-            sortByRole(gnomes);
-            break;
+            case 1:
+                sortByName(gnomes);
+                break;
 
-        case 3:
-            sortByNameAndRole(gnomes);
-            break;
+            case 2:
+                sortByRole(gnomes);
+                break;
 
-        default:
-            throw new IllegalArgumentException(
-                    "Неизвестный вариант сортировки"
-            );
+            case 3:
+                sortByNameAndRole(gnomes);
+                break;
+
+            default:
+                throw new IllegalArgumentException(
+                        "Неизвестный вариант сортировки"
+                );
+        }
     }
 }

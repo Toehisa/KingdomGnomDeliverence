@@ -4,6 +4,7 @@ import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
 import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,13 +12,19 @@ import java.util.Scanner;
 public class ManualMenu extends Menu {
     private final GnomeCreationStrategy strategy;
     private final List<Gnome> gnomes;
+    private final ConsoleInputReader inputReader;
 
-    public ManualMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes) {
+    public ManualMenu(
+            MenuRoutes routeID,
+            GnomeCreationStrategy strategy,
+            List<Gnome> gnomes,
+            ConsoleInputReader inputReader
+    ) {
         super(routeID);
         this.strategy = strategy;
         this.gnomes = gnomes;
+        this.inputReader = inputReader;
     }
-
     @Override
     public void show() {
         System.out.println("--- Ручной глиномес гномов ---");
@@ -29,7 +36,7 @@ public class ManualMenu extends Menu {
     @Override
     public MenuRoutes execute(Scanner scanner) {
 
-        int num = readInteger(scanner);
+        int num = inputReader.readInt();
 
         return switch (num) {
             case 1 -> {
@@ -76,28 +83,5 @@ public class ManualMenu extends Menu {
                 yield MenuRoutes.MANUAL;
             }
         };
-    }
-
-    private int readInteger(Scanner scanner) {
-
-        while (true) {
-
-            System.out.print("Твой выбор: ");
-
-            String input = scanner.next();
-
-            try {
-                int number = Integer.parseInt(input);
-
-                scanner.nextLine();
-
-                return number;
-
-            } catch (NumberFormatException e) {
-                System.out.println("Ты мне вводи цифры, а не буквы.");
-
-                scanner.nextLine();
-            }
-        }
     }
 }

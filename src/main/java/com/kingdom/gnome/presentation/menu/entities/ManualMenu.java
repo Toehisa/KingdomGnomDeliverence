@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class ManualMenu extends Menu {
     private final GnomeCreationStrategy strategy;
-    private final List<Gnome> gnomes; 
+    private final List<Gnome> gnomes;
 
     public ManualMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes) {
         super(routeID);
@@ -24,7 +24,6 @@ public class ManualMenu extends Menu {
         System.out.println("1. Выдуть жидкого гнома через трубку");
         System.out.println("2. Посмотреть список текущих рабов");
         System.out.println("3. Вернуться на главную");
-        System.out.print("Твой выбор: ");
     }
 
     @Override
@@ -56,7 +55,7 @@ public class ManualMenu extends Menu {
 
                 gnomes.forEach(System.out::println);
 
-                            yield MenuRoutes.MANUAL;
+                yield MenuRoutes.MANUAL;
             }
             case 2 -> {
                 System.out.println("--- Состав армии ---");
@@ -78,20 +77,26 @@ public class ManualMenu extends Menu {
             }
         };
     }
+
     private int readInteger(Scanner scanner) {
 
         while (true) {
 
             System.out.print("Твой выбор: ");
 
-            String input = scanner.nextLine().trim();
+            String input = scanner.next();
 
             try {
-                return Integer.parseInt(input);
+                int number = Integer.parseInt(input);
+
+                scanner.nextLine();
+
+                return number;
+
             } catch (NumberFormatException e) {
-                System.out.println(
-                        "Ты мне вводи цифры, а не буквы."
-                );
+                System.out.println("Ты мне вводи цифры, а не буквы.");
+
+                scanner.nextLine();
             }
         }
     }

@@ -1,13 +1,13 @@
 package com.kingdom.gnome.presentation.strategy;
 
 import java.util.List;
-import java.util.Scanner;
+
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.GnomeNumberPromt;
 import com.kingdom.gnome.dao.perform.GnomeFileReader;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeImportResult;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeImportService;
-
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 public class FileGnomeStrategy implements GnomeCreationStrategy {
 
@@ -18,17 +18,17 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
     }
 
     @Override
-    public List<Gnome> create(Scanner scanner) {
+    public List<Gnome> create(ConsoleInputReader inputReader) {
         System.out.println(" --- ВЫГРУЗКА ГНОМОВ ИЗ ФАЙЛА --- ");
 
-        int count = readCount(scanner);
+        int count = readCount(inputReader);
         if (count == 0) {
             System.out.println("Отмена операции.");
             return null;
         }
-        scanner.nextLine(); // Съедаем символ перехода на след. строку
+        inputReader.readLine(); // Съедаем символ перехода на след. строку
 
-        String filename = readFilename(scanner);
+        String filename = readFilename(inputReader);
         if (filename == null) {
             System.out.println("Отмена операции.");
             return null;
@@ -39,19 +39,19 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
         return handleResult(result);
     }
 
-    private int readCount(Scanner scanner) {
+    private int readCount(ConsoleInputReader inputReader) {
         GnomeNumberPromt numberPromt = new GnomeNumberPromt(
                 "Введите количество гномов для чтения из файла (0 для выхода): ",
-                scanner
+                inputReader
         );
         return numberPromt.getCount();
     }
 
-    private String readFilename(Scanner scanner) {
+    private String readFilename(ConsoleInputReader inputReader) {
         while (true) {
             System.out.println("Введите имя файла (или 0 для выхода)");
             System.out.print(">> ");
-            String filename = scanner.nextLine().trim();
+            String filename = inputReader.readLine().trim();
 
             if (filename.isEmpty()) {
                 System.out.println("Ошибка: имя файла не может быть пустым.");

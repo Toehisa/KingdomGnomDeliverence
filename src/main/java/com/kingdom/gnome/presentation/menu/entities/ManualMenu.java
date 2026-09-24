@@ -7,7 +7,6 @@ import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortServi
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ManualMenu extends Menu {
     private final GnomeCreationStrategy strategy;
@@ -34,13 +33,12 @@ public class ManualMenu extends Menu {
     }
 
     @Override
-    public MenuRoutes execute(Scanner scanner) {
+    public MenuRoutes execute() {
 
-        int num = inputReader.readInt();
-
+        int num = inputReader.readInteger();
         return switch (num) {
             case 1 -> {
-                List<Gnome> freshGnomes = strategy.create(scanner);
+                List<Gnome> freshGnomes = strategy.create(inputReader);
 
                 if (freshGnomes != null && !freshGnomes.isEmpty()) {
                     gnomes.addAll(freshGnomes);
@@ -54,7 +52,7 @@ public class ManualMenu extends Menu {
                 System.out.println("3. По величанию и иерархии");
                 System.out.print("Твой выбор предводитель: ");
 
-                int sortChoice = Integer.parseInt(scanner.nextLine());
+                int sortChoice = inputReader.readInteger();
 
                 sortService.sort(gnomes, sortChoice);
 

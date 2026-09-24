@@ -29,6 +29,7 @@ public class ManualMenu extends Menu {
     @Override
     public MenuRoutes execute(Scanner scanner) {
         var num = scanner.nextInt();
+        scanner.nextLine();
 
         return switch (num) {
             case 1 -> {

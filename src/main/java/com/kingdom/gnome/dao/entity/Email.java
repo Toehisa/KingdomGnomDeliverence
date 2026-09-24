@@ -6,4 +6,9 @@ public record Email(String value) {
             throw new IllegalArgumentException("Некорректный email: " + value);
         }
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

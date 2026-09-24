@@ -10,6 +10,9 @@ public class ConsoleInputReader {
         this.scanner = scanner;
     }
 
+    public String readLine() {
+        return scanner.nextLine();
+    }
     public int readInteger() {
         while (true) {
             String input = scanner.nextLine();

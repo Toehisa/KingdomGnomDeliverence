@@ -65,23 +65,23 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
         return gnomes;
     }
-}
+    private String readName(Scanner scanner) {
 
-private String readName(Scanner scanner) {
+        while (true) {
 
-    while (true) {
+            System.out.print("Введите имя гнома: ");
 
-        System.out.print("Введите имя гнома: ");
+            String name = scanner.nextLine().trim();
 
-        String name = scanner.nextLine().trim();
+            if (!name.isEmpty()) {
+                return name;
+            }
 
-        if (!name.isEmpty()) {
-            return name;
+            System.out.println(
+                    "Имя не может быть пустым. " +
+                            "Пожалуйста, укажите имя гнома."
+            );
         }
-
-        System.out.println(
-                "Имя не может быть пустым. " +
-                        "Пожалуйста, укажите имя гнома."
-        );
     }
 };
+

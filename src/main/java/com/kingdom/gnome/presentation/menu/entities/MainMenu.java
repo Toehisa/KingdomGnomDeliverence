@@ -16,7 +16,6 @@ public class MainMenu extends Menu{
         System.out.println("3.Десереализовать гномов в ram помойку из файла");
         System.out.println("4.Распределить армию в нужную ротацию");
         System.out.println("5.Доблестно ливнуть с тильтом под гномий ансамбль");
-        System.out.print("Твой выбор: ");
     }
 
     @Override
@@ -36,12 +35,19 @@ public class MainMenu extends Menu{
 
             System.out.print("Твой выбор: ");
 
-            String input = scanner.nextLine().trim();
+            String input = scanner.next();
 
             try {
-                return Integer.parseInt(input);
+                int number = Integer.parseInt(input);
+
+                scanner.nextLine();
+
+                return number;
+
             } catch (NumberFormatException e) {
-                System.out.println("Ты мне вводи цифры, а не буквы");
+                System.out.println("Ты мне вводи цифры, а не буквы.");
+
+                scanner.nextLine();
             }
         }
     }

@@ -26,7 +26,7 @@ public class RandomMenu extends Menu{
 
     @Override
     public MenuRoutes execute(Scanner scanner) {
-        var num = scanner.nextInt();
+        int num = readInteger(scanner);
         return switch (num){
             case 1 -> {
                 List<Gnome> freshGnomes = strategy.create(scanner);
@@ -51,5 +51,27 @@ public class RandomMenu extends Menu{
                 yield MenuRoutes.RANDOM;
             }
         };
+    }
+    private int readInteger(Scanner scanner) {
+
+        while (true) {
+
+            System.out.print("Твой выбор: ");
+
+            String input = scanner.next();
+
+            try {
+                int number = Integer.parseInt(input);
+
+                scanner.nextLine();
+
+                return number;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Ты мне вводи цифры, а не буквы.");
+
+                scanner.nextLine();
+            }
+        }
     }
 }

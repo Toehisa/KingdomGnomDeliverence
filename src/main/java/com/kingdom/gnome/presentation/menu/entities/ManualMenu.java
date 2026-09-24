@@ -3,7 +3,7 @@ package com.kingdom.gnome.presentation.menu.entities;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
-import com.kingdom.gnome.service.perform.fileStrategy.GnomeSortService;
+import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
 
 import java.util.List;
 import java.util.Scanner;

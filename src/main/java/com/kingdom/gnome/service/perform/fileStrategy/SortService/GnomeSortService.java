@@ -1,4 +1,4 @@
-package com.kingdom.gnome.service.perform.fileStrategy;
+package com.kingdom.gnome.service.perform.fileStrategy.SortService;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 

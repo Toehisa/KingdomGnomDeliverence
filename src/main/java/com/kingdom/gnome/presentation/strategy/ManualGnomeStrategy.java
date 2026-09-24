@@ -72,15 +72,20 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
             System.out.print("Введите имя гнома: ");
 
             String name = scanner.nextLine().trim();
-
-            if (!name.isEmpty()) {
-                return name;
+            if (name.isEmpty()) {
+                System.out.println(
+                        "Имя не может быть пустым. " +
+                                "Пожалуйста, укажите имя гнома."
+                );
+                continue;
             }
-
-            System.out.println(
-                    "Имя не может быть пустым. " +
-                            "Пожалуйста, укажите имя гнома."
-            );
+            if (!name.matches("[a-zA-Zа-яА-ЯёЁ ]+")) {
+                System.out.println(
+                        "Имя может содержать только буквы и пробелы."
+                );
+                continue;
+            }
+            return name;
         }
     }
 };

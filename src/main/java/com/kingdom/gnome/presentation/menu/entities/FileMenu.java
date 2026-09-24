@@ -3,18 +3,20 @@ package com.kingdom.gnome.presentation.menu.entities;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class FileMenu extends Menu {
     private final GnomeCreationStrategy strategy;
     private final List<Gnome> gnomes; // Ссылка на нашу общую армию
+    private final ConsoleInputReader inputReader;
 
-    public FileMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes) {
+    public FileMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes, ConsoleInputReader inputReader) {
         super(routeID);
         this.strategy = strategy;
         this.gnomes = gnomes;
+        this.inputReader = inputReader;
     }
 
     @Override
@@ -26,12 +28,12 @@ public class FileMenu extends Menu {
     }
 
     @Override
-    public MenuRoutes execute(Scanner scanner) {
-        int num = readInteger(scanner);
+    public MenuRoutes execute() {
 
+        int num = inputReader.readInteger();
         return switch (num) {
             case 1 -> {
-                List<Gnome> freshGnomes = strategy.create(scanner);
+                List<Gnome> freshGnomes = strategy.create(inputReader);
 
                 if (freshGnomes != null && !freshGnomes.isEmpty()) {
                     gnomes.addAll(freshGnomes);
@@ -58,27 +60,5 @@ public class FileMenu extends Menu {
                 yield MenuRoutes.FILE;
             }
         };
-    }
-    private int readInteger(Scanner scanner) {
-
-        while (true) {
-
-            System.out.print("Твой выбор: ");
-
-            String input = scanner.next();
-
-            try {
-                int number = Integer.parseInt(input);
-
-                scanner.nextLine();
-
-                return number;
-
-            } catch (NumberFormatException e) {
-                System.out.println("Ты мне вводи цифры, а не буквы.");
-
-                scanner.nextLine();
-            }
-        }
     }
 }

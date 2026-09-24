@@ -3,7 +3,14 @@ package com.kingdom.gnome.presentation.input;
 import java.util.Scanner;
 
 public class ConsoleInputReader {
-    public int readInt(Scanner scanner) {
+
+    private final Scanner scanner;
+
+    public ConsoleInputReader(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public int readInt() {
         while (true) {
             String input = scanner.nextLine().trim();
 
@@ -14,5 +21,9 @@ public class ConsoleInputReader {
                 System.out.print("Твой выбор: ");
             }
         }
+    }
+
+    public String readString() {
+        return scanner.nextLine().trim();
     }
 }

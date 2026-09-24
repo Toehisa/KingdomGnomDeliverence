@@ -88,5 +88,5 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
             return name;
         }
     }
-};
+}
 

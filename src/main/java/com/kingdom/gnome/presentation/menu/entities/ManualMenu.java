@@ -29,8 +29,8 @@ public class ManualMenu extends Menu {
 
     @Override
     public MenuRoutes execute(Scanner scanner) {
-        var num = scanner.nextInt();
-        scanner.nextLine();
+
+        int num = readInteger(scanner);
 
         return switch (num) {
             case 1 -> {
@@ -77,5 +77,22 @@ public class ManualMenu extends Menu {
                 yield MenuRoutes.MANUAL;
             }
         };
+    }
+    private int readInteger(Scanner scanner) {
+
+        while (true) {
+
+            System.out.print("Твой выбор: ");
+
+            String input = scanner.nextLine().trim();
+
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println(
+                        "Ты мне вводи цифры, а не буквы."
+                );
+            }
+        }
     }
 }

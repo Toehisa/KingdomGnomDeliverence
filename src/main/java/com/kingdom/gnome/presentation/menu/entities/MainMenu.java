@@ -1,26 +1,34 @@
 package com.kingdom.gnome.presentation.menu.entities;
 
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 
-import java.util.Scanner;
+public class MainMenu extends Menu {
 
-public class MainMenu extends Menu{
-    public MainMenu(MenuRoutes routeID) {
+    private final ConsoleInputReader inputReader;
+
+    public MainMenu(
+            MenuRoutes routeID,
+            ConsoleInputReader inputReader
+    ) {
         super(routeID);
+        this.inputReader = inputReader;
     }
 
     @Override
     public void show() {
-        System.out.println("1.Закуканить случайным образом новых домашних рабов, гномов");
-        System.out.println("2.Слепить жидких гномов вручную");
-        System.out.println("3.Десереализовать гномов в ram помойку из файла");
-        System.out.println("4.Распределить армию в нужную ротацию");
-        System.out.println("5.Доблестно ливнуть с тильтом под гномий ансамбль");
+        System.out.println("1. Закукать случайным образом новых домашних работ, гномов");
+        System.out.println("2. Слепить жидких гномов вручную");
+        System.out.println("3. Десериализовать гномов в рам помощью из файла");
+        System.out.println("4. Распределить армию в нужную ротацию");
+        System.out.println("5. Доблестно ливнуть с тылом под гномий ансамбль");
     }
 
     @Override
-    public MenuRoutes execute(Scanner scanner) {
-        int num = readInteger(scanner);
+    public MenuRoutes execute() {
+
+        int num = inputReader.readInteger();
+
         return switch (num) {
             case 1 -> MenuRoutes.RANDOM;
             case 2 -> MenuRoutes.MANUAL;
@@ -28,27 +36,5 @@ public class MainMenu extends Menu{
             case 5 -> MenuRoutes.EXIT;
             default -> MenuRoutes.EXCEPTION;
         };
-    }
-    private int readInteger(Scanner scanner) {
-
-        while (true) {
-
-            System.out.print("Твой выбор: ");
-
-            String input = scanner.next();
-
-            try {
-                int number = Integer.parseInt(input);
-
-                scanner.nextLine();
-
-                return number;
-
-            } catch (NumberFormatException e) {
-                System.out.println("Ты мне вводи цифры, а не буквы.");
-
-                scanner.nextLine();
-            }
-        }
     }
 }

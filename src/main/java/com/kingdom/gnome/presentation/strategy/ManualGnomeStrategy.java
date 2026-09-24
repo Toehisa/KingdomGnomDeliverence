@@ -21,8 +21,7 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
             System.out.printf("\nГном №%d%n", i + 1);
 
-            System.out.print("Введите имя гнома: ");
-            String name = scanner.nextLine().trim();
+            String name = readName(scanner);
 
             System.out.println("Выберите роль:");
 
@@ -67,3 +66,22 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
         return gnomes;
     }
 }
+
+private String readName(Scanner scanner) {
+
+    while (true) {
+
+        System.out.print("Введите имя гнома: ");
+
+        String name = scanner.nextLine().trim();
+
+        if (!name.isEmpty()) {
+            return name;
+        }
+
+        System.out.println(
+                "Имя не может быть пустым. " +
+                        "Пожалуйста, укажите имя гнома."
+        );
+    }
+};

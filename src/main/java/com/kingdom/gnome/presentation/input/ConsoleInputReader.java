@@ -10,20 +10,15 @@ public class ConsoleInputReader {
         this.scanner = scanner;
     }
 
-    public int readInt() {
+    public int readInteger() {
         while (true) {
-            String input = scanner.nextLine().trim();
+            String input = scanner.nextLine();
 
             try {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Ты мне вводи цифры, а не буквы.");
-                System.out.print("Твой выбор: ");
+                System.out.println("Введите целое число:");
             }
         }
-    }
-
-    public String readString() {
-        return scanner.nextLine().trim();
     }
 }

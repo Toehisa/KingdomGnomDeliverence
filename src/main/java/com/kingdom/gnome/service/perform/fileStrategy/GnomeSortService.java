@@ -19,3 +19,12 @@ public class GnomeSortService {
                 )
         );
     }
+    public void sortByNameAndRole(List<Gnome> gnomes) {
+        gnomes.sort(
+                Comparator.comparing(Gnome::getName)
+                        .thenComparing(
+                                gnome -> gnome.getRole().getTitle()
+                        )
+        );
+    }
+}

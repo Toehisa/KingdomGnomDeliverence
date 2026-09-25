@@ -3,14 +3,14 @@ package com.kingdom.gnome.presentation.strategy;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.entity.GnomeRole;
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
     @Override
-    public List<Gnome> create(Scanner scanner) {
+    public List<Gnome> create(ConsoleInputReader inputReader) {
 
         List<Gnome> gnomes = new java.util.ArrayList<>();
 
@@ -20,7 +20,7 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
             System.out.print("Введите количество выдуваемых жидких гномов: ");
 
-            String input = scanner.nextLine().trim();
+            String input = inputReader.readLine("").trim();
 
             try {
                 count = Integer.parseInt(input);
@@ -42,7 +42,7 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
             System.out.printf("%nГном №%d%n", i + 1);
 
-            String name = readName(scanner);
+            String name = inputReader.readLetters("Введите имя: ").trim();
 
             System.out.println("Выберите роль:");
 
@@ -58,7 +58,7 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
                 System.out.print("Введите номер роли: ");
 
-                String input = scanner.nextLine().trim();
+                String input = inputReader.readLine("").trim();
 
                 try {
                     roleNumber = Integer.parseInt(input);
@@ -93,28 +93,4 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
         return gnomes;
     }
-    private String readName(Scanner scanner) {
-
-        while (true) {
-
-            System.out.print("Введите имя гнома: ");
-
-            String name = scanner.nextLine().trim();
-            if (name.isEmpty()) {
-                System.out.println(
-                        "Имя не может быть пустым. " +
-                                "Пожалуйста, укажите имя гнома."
-                );
-                continue;
-            }
-            if (!name.matches("[a-zA-Zа-яА-ЯёЁ ]+")) {
-                System.out.println(
-                        "Имя может содержать только буквы и пробелы."
-                );
-                continue;
-            }
-            return name;
-        }
-    }
 }
-

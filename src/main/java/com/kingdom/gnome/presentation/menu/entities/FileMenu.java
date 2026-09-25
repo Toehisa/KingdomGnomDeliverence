@@ -30,7 +30,7 @@ public class FileMenu extends Menu {
     @Override
     public MenuRoutes execute() {
 
-        int num = inputReader.readInteger();
+        int num = inputReader.readInteger("Твой ответ, хозяин: ",1,3);
         return switch (num) {
             case 1 -> {
                 List<Gnome> freshGnomes = strategy.create(inputReader);

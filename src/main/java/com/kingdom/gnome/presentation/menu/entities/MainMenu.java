@@ -22,19 +22,23 @@ public class MainMenu extends Menu {
         System.out.println("3. Десериализовать гномов в рам помощью из файла");
         System.out.println("4. Распределить армию в нужную ротацию");
         System.out.println("5. Доблестно ливнуть с тылом под гномий ансамбль");
+
     }
 
     @Override
     public MenuRoutes execute() {
 
-        int num = inputReader.readInteger();
+        int num = inputReader.readInteger("Твой ответ хозяин: ");
 
         return switch (num) {
             case 1 -> MenuRoutes.RANDOM;
             case 2 -> MenuRoutes.MANUAL;
             case 3 -> MenuRoutes.FILE;
             case 5 -> MenuRoutes.EXIT;
-            default -> MenuRoutes.EXCEPTION;
+            default -> {
+                System.out.println("Выбирай только тот пункт, который доступен - от 1 до 5: ");
+                yield MenuRoutes.MAIN;
+            }
         };
     }
 }

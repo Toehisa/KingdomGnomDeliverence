@@ -1,20 +1,22 @@
 package com.kingdom.gnome.presentation.menu.entities;
 
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
 
 import java.util.List;
-import java.util.Scanner;
 
-public class RandomMenu extends Menu{
+public class RandomMenu extends Menu {
     private final GnomeCreationStrategy strategy;
     private final List<Gnome> gnomes;
+    private final ConsoleInputReader inputReader;
 
-    public RandomMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes) {
+    public RandomMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes, ConsoleInputReader inputReader) {
         super(routeID);
         this.strategy = strategy;
         this.gnomes = gnomes;
+        this.inputReader = inputReader;
     }
 
     @Override
@@ -25,11 +27,11 @@ public class RandomMenu extends Menu{
     }
 
     @Override
-    public MenuRoutes execute(Scanner scanner) {
-        var num = scanner.nextInt();
-        return switch (num){
+    public MenuRoutes execute() {
+        int num = inputReader.readInteger("Твой ответ, хозяин: ",1,3);
+        return switch (num) {
             case 1 -> {
-                List<Gnome> freshGnomes = strategy.create(scanner);
+                List<Gnome> freshGnomes = strategy.create(inputReader);
                 if (freshGnomes != null && !freshGnomes.isEmpty()) {
                     gnomes.addAll(freshGnomes);
                     System.out.println("Гномы успешно добавлены в общую армию!");
@@ -52,4 +54,4 @@ public class RandomMenu extends Menu{
             }
         };
     }
-}
+};

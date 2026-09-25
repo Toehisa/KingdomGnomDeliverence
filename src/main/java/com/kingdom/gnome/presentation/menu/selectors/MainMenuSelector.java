@@ -37,7 +37,7 @@ public class MainMenuSelector extends MenuSelector {
     public void run(Scanner scanner) {
         while (isRunnable) {
             showMenu();
-            var route = currentMenu().execute(scanner);
+            var route = currentMenu().execute();
             switchMenu(route);
 
         }

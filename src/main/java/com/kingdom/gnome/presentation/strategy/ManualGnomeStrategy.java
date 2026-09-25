@@ -3,25 +3,46 @@ package com.kingdom.gnome.presentation.strategy;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.entity.GnomeRole;
+import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class ManualGnomeStrategy implements GnomeCreationStrategy {
 
     @Override
-    public List<Gnome> create(Scanner scanner) {
+    public List<Gnome> create(ConsoleInputReader inputReader) {
 
         List<Gnome> gnomes = new java.util.ArrayList<>();
 
-        System.out.print("Введите количество гномов: ");
-        int count = Integer.parseInt(scanner.nextLine());
+        int count;
 
+        while (true) {
+
+            System.out.print("Введите количество выдуваемых жидких гномов: ");
+
+            String input = inputReader.readLine("").trim();
+
+            try {
+                count = Integer.parseInt(input);
+
+                if (count <= 0) {
+                    System.out.println("Количество выдуваемых жидких гномов должно быть больше нуля.");
+                    continue;
+                }
+
+                break;
+
+            } catch (NumberFormatException e) {
+                System.out.println("Введите количество выдуваемых жидких гномов цифрами.");
+            }
+        }
+
+        // Создание гномов
         for (int i = 0; i < count; i++) {
 
-            System.out.printf("\nГном №%d%n", i + 1);
+            System.out.printf("%nГном №%d%n", i + 1);
 
-            String name = readName(scanner);
+            String name = inputReader.readLetters("Введите имя: ").trim();
 
             System.out.println("Выберите роль:");
 
@@ -30,30 +51,35 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
             for (int j = 0; j < roles.length; j++) {
                 System.out.printf("%d. %s%n", j + 1, roles[j].getTitle());
             }
-            GnomeRole role;
+
+            int roleNumber;
 
             while (true) {
 
-                System.out.print("Ваш выбор: ");
+                System.out.print("Введите номер роли: ");
+
+                String input = inputReader.readLine("").trim();
 
                 try {
-                    int choice = Integer.parseInt(
-                            scanner.nextLine()
-                    );
+                    roleNumber = Integer.parseInt(input);
 
-                    if (choice >= 1 && choice <= roles.length) {
-                        role = roles[choice - 1];
-                        break;
+                    if (roleNumber < 1 || roleNumber > roles.length) {
+                        System.out.println(
+                                "Ошибка: выберите номер роли из списка."
+                        );
+                        continue;
                     }
 
-                    System.out.printf("Выберите число от 1 до %d%n", roles.length);
+                    break;
 
                 } catch (NumberFormatException e) {
                     System.out.println(
-                            "Введите номер роли."
+                            "Ошибка: введите номер роли цифрами."
                     );
                 }
             }
+
+            GnomeRole role = roles[roleNumber - 1];
 
             Gnome gnome = Gnome.builder()
                     .name(name)
@@ -61,32 +87,10 @@ public class ManualGnomeStrategy implements GnomeCreationStrategy {
                     .build();
 
             gnomes.add(gnome);
+
+            System.out.println("Гном успешно создан!");
         }
 
         return gnomes;
     }
-    private String readName(Scanner scanner) {
-
-        while (true) {
-
-            System.out.print("Введите имя гнома: ");
-
-            String name = scanner.nextLine().trim();
-            if (name.isEmpty()) {
-                System.out.println(
-                        "Имя не может быть пустым. " +
-                                "Пожалуйста, укажите имя гнома."
-                );
-                continue;
-            }
-            if (!name.matches("[a-zA-Zа-яА-ЯёЁ ]+")) {
-                System.out.println(
-                        "Имя может содержать только буквы и пробелы."
-                );
-                continue;
-            }
-            return name;
-        }
-    }
-};
-
+}

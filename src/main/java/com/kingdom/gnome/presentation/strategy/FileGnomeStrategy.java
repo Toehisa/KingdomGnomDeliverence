@@ -1,5 +1,6 @@
 package com.kingdom.gnome.presentation.strategy;
 
+import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import com.kingdom.gnome.dao.entity.Gnome;
@@ -7,6 +8,7 @@ import com.kingdom.gnome.presentation.GnomeNumberPromt;
 import com.kingdom.gnome.dao.perform.GnomeFileReader;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeImportResult;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeImportService;
+import javax.swing.*;
 
 
 public class FileGnomeStrategy implements GnomeCreationStrategy {
@@ -28,13 +30,13 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
         }
         scanner.nextLine(); // Съедаем символ перехода на след. строку
 
-        String filename = readFilename(scanner);
-        if (filename == null) {
+        File file = getFile();
+        if (file == null) {
             System.out.println("Отмена операции.");
             return null;
         }
 
-        GnomeImportResult result = importService.importGnomes(filename, count);
+        GnomeImportResult result = importService.importGnomes(file, count);
 
         return handleResult(result);
     }
@@ -47,7 +49,17 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
         return numberPromt.getCount();
     }
 
-    private String readFilename(Scanner scanner) {
+    private File getFile() {
+        File file = null;
+        JFileChooser fileChooser = new JFileChooser();
+        int ret = fileChooser.showDialog(null, "Открыть файл");
+        if (ret == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+        }
+        return file;
+    }
+
+    /*private String readFilename(Scanner scanner) {
         while (true) {
             System.out.println("Введите имя файла (или 0 для выхода)");
             System.out.print(">> ");
@@ -62,7 +74,7 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
             }
             return filename;
         }
-    }
+    }*/
 
     private List<Gnome> handleResult(GnomeImportResult result) {
         switch (result.getStatus()) {

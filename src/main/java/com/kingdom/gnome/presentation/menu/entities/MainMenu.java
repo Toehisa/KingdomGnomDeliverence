@@ -28,7 +28,7 @@ public class MainMenu extends Menu {
     @Override
     public MenuRoutes execute() {
 
-        int num = inputReader.readInteger("Твой ответ хозяин: ");
+        int num = inputReader.readInteger("Твой ответ хозяин: ",1, 5);
 
         return switch (num) {
             case 1 -> MenuRoutes.RANDOM;

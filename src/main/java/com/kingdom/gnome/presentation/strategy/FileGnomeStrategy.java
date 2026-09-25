@@ -26,7 +26,7 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
             System.out.println("Отмена операции.");
             return null;
         }
-        inputReader.readLine(); // Съедаем символ перехода на след. строку
+        inputReader.readLine(""); // Съедаем символ перехода на след. строку
 
         String filename = readFilename(inputReader);
         if (filename == null) {
@@ -51,7 +51,7 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
         while (true) {
             System.out.println("Введите имя файла (или 0 для выхода)");
             System.out.print(">> ");
-            String filename = inputReader.readLine().trim();
+            String filename = inputReader.readLine("").trim();
 
             if (filename.isEmpty()) {
                 System.out.println("Ошибка: имя файла не может быть пустым.");

@@ -2,6 +2,8 @@ package com.kingdom.gnome.presentation.input;
 
 import java.util.Scanner;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class ConsoleInputReader {
 
     private final Scanner scanner;
@@ -24,14 +26,23 @@ public class ConsoleInputReader {
         }
     }
 
-    public int readInteger(String prompt) {
+    public int readInteger(String prompt, int min, int max) {
         while (true) {
             System.out.print(prompt);
 
             String input = scanner.nextLine().trim();
 
             try {
-                return Integer.parseInt(input);
+                int value = Integer.parseInt(input);
+
+                if (value >= min && value <= max) {
+                    return value;
+                }
+
+                System.out.println(
+                        "Вводи число которое указано, лишнего не придумывай, от " + min + " до " + max + "."
+                );
+
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: введите целое число.");
             }
@@ -40,7 +51,7 @@ public class ConsoleInputReader {
 
     public int readPositiveInteger(String prompt) {
         while (true) {
-            int number = readInteger(prompt);
+            int number = readInteger(prompt,1,MAX_VALUE);
 
             if (number > 0) {
                 return number;

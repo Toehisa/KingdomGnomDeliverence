@@ -12,20 +12,6 @@ public class GnomeNumberPromt {
     }
 
     public int getCount() {
-        while(true) {
-            System.out.println(promptMsg);
-
-            try {
-                int count = inputReader.readInteger();
-
-                if(count >= 0){
-                    return count;
-                } else {
-                    System.out.println("Ошибка: число должно быть неотрицательным");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Ошибка: введите целое число");
-            }
-        }
+        return inputReader.readPositiveInteger(promptMsg);
     }
 }

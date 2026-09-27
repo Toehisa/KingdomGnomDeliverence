@@ -2,6 +2,7 @@ package com.kingdom.gnome.presentation.menu.entities;
 
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
+import static com.kingdom.gnome.presentation.menu.routes.MenuRoutes.*;
 
 public class MainMenu extends Menu {
 
@@ -25,20 +26,12 @@ public class MainMenu extends Menu {
 
     }
 
+
     @Override
     public MenuRoutes execute() {
-
-        int num = inputReader.readInteger("Твой ответ хозяин: ",1, 5);
-
-        return switch (num) {
-            case 1 -> MenuRoutes.RANDOM;
-            case 2 -> MenuRoutes.MANUAL;
-            case 3 -> MenuRoutes.FILE;
-            case 5 -> MenuRoutes.EXIT;
-            default -> {
-                System.out.println("Выбирай только тот пункт, который доступен - от 1 до 5: ");
-                yield MenuRoutes.MAIN;
-            }
-        };
+        return inputReader.readUntilValid(
+                "Введите число: ",
+                (userInput) -> MenuRoutes.fromStr(userInput, RANDOM, MANUAL, FILE, EXIT)
+        );
     }
 }

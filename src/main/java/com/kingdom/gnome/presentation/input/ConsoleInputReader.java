@@ -5,8 +5,6 @@ import org.jspecify.annotations.NonNull;
 import java.util.Scanner;
 import java.util.function.Function;
 
-import static java.lang.Integer.MAX_VALUE;
-
 public class ConsoleInputReader {
 
     private final Scanner scanner;
@@ -18,7 +16,7 @@ public class ConsoleInputReader {
     public <T> T readUntilValid(String prompt, @NonNull Function<String, T> function) {
         while (true) {
             try {
-                System.out.println(prompt);
+                System.out.print(prompt);
                 return function.apply(scanner.nextLine().trim());
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -27,17 +25,12 @@ public class ConsoleInputReader {
     }
 
     public String readLine(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-
-            String input = scanner.nextLine().trim();
-
+        return readUntilValid(prompt, input -> {
             if (!input.isEmpty()) {
                 return input;
             }
-
-            System.out.println("Ошибка: поле не может быть пустым.");
-        }
+            throw new IllegalArgumentException("Ошибка: поле не может быть пустым.");
+        });
     }
 
     public int readIntInRange(String prompt, int min, int max) {
@@ -51,42 +44,34 @@ public class ConsoleInputReader {
                         }
                     } catch (NumberFormatException e){}
 
-                    throw new IllegalArgumentException("Пункт меню не найден, попробуйте еще раз");
+                    throw new IllegalArgumentException("Ошибка: введите число от " + min + " до " + max);
                 }
         );
     }
 
     public int readPositiveInteger(String prompt) {
-        while (true) {
-            int number = readIntInRange(prompt,1,MAX_VALUE);
+        return readUntilValid(
+                prompt,
+                (userInput) -> {
+                    try {
+                        int digit = Integer.parseInt(userInput);
+                        if (digit >= 0) {
+                            return digit;
+                        }
+                    } catch (NumberFormatException e){}
 
-            if (number > 0) {
-                return number;
-            }
-
-            System.out.println("Ошибка: число не может быть отрицательным.");
-        }
+                    throw new IllegalArgumentException("Ошибка: введите положительное число!");
+                }
+        );
     }
 
 
     public String readLetters(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-
-            String input = scanner.nextLine().trim();
-
-            if (input.isEmpty()) {
-                System.out.println("Ошибка: поле не может быть пустым.");
-                continue;
+        return readUntilValid(prompt, userInput -> {
+            if (userInput.matches("[а-яА-ЯёЁa-zA-Z ]+")) {
+                return userInput;
             }
-
-            if (input.matches("[а-яА-ЯёЁa-zA-Z ]+")) {
-                return input;
-            }
-
-            System.out.println(
-                    "Ошибка: здесь можно вводить только буквы."
-            );
-        }
+            throw new IllegalArgumentException("Ошибка: здесь можно вводить только буквы.");
+        });
     }
 }

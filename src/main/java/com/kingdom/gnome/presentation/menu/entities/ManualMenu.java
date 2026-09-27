@@ -35,7 +35,7 @@ public class ManualMenu extends Menu {
     @Override
     public MenuRoutes execute() {
 
-        int num = inputReader.readInteger("Твой ответ, хозяин: ",1,3);
+        int num = inputReader.readIntInRange("Твой ответ, хозяин: ",1,3);
         return switch (num) {
             case 1 -> {
                 List<Gnome> freshGnomes = strategy.create(inputReader);
@@ -52,7 +52,7 @@ public class ManualMenu extends Menu {
                 System.out.println("3. По величанию и иерархии");
                 System.out.print("Твой выбор предводитель: ");
 
-                int sortChoice = inputReader.readInteger("",1,3);
+                int sortChoice = inputReader.readIntInRange("",1,3);
 
                 sortService.sort(gnomes, sortChoice);
 

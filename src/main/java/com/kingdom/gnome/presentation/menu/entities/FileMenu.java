@@ -22,29 +22,28 @@ public class FileMenu extends Menu {
     @Override
     public void show() {
         System.out.println("--- Работа с файлами ---");
-        System.out.println("1. Десериализовать гомогомгномов из файла");
+        System.out.println("1. Десериализовать гномов из файла");
         System.out.println("2. Посмотреть список гномов");
         System.out.println("3. На главную");
     }
 
     @Override
     public MenuRoutes execute() {
-
-        int num = inputReader.readInteger("Твой ответ, хозяин: ",1,3);
+        int num = inputReader.readIntInRange("Твой ответ, хозяин: ",1,3);
         return switch (num) {
             case 1 -> {
                 List<Gnome> freshGnomes = strategy.create(inputReader);
 
                 if (freshGnomes != null && !freshGnomes.isEmpty()) {
                     gnomes.addAll(freshGnomes);
-                    System.out.println("Файловые гномы успешно десериализованы и добавлены в армию!");
+                    System.out.println("Гномы успешно десериализованы и добавлены в армию!");
                 }
                 yield MenuRoutes.FILE;
             }
             case 2 -> {
                 System.out.println("--- Состав армии ---");
                 if (gnomes.isEmpty()) {
-                    System.out.println("В RAM-помойке пока пусто.");
+                    System.out.println("В RAM пока пусто.");
                 } else {
                     for (Gnome g : gnomes) {
                         System.out.println(g);

@@ -1,8 +1,9 @@
 package com.kingdom.gnome.presentation.input;
 
-import java.util.Scanner;
+import org.jspecify.annotations.NonNull;
 
-import static java.lang.Integer.MAX_VALUE;
+import java.util.Scanner;
+import java.util.function.Function;
 
 public class ConsoleInputReader {
 
@@ -12,74 +13,65 @@ public class ConsoleInputReader {
         this.scanner = scanner;
     }
 
-    public String readLine(String prompt) {
+    public <T> T readUntilValid(String prompt, @NonNull Function<String, T> function) {
         while (true) {
-            System.out.print(prompt);
+            try {
+                System.out.print(prompt);
+                return function.apply(scanner.nextLine().trim());
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
-            String input = scanner.nextLine().trim();
-
+    public String readLine(String prompt) {
+        return readUntilValid(prompt, input -> {
             if (!input.isEmpty()) {
                 return input;
             }
-
-            System.out.println("Ошибка: поле не может быть пустым.");
-        }
+            throw new IllegalArgumentException("Ошибка: поле не может быть пустым.");
+        });
     }
 
-    public int readInteger(String prompt, int min, int max) {
-        while (true) {
-            System.out.print(prompt);
+    public int readIntInRange(String prompt, int min, int max) {
+        return readUntilValid(
+                prompt,
+                (userInput) -> {
+                    try {
+                        int digit = Integer.parseInt(userInput);
+                        if (digit >= min && digit <= max) {
+                            return digit;
+                        }
+                    } catch (NumberFormatException e){}
 
-            String input = scanner.nextLine().trim();
-
-            try {
-                int value = Integer.parseInt(input);
-
-                if (value >= min && value <= max) {
-                    return value;
+                    throw new IllegalArgumentException("Ошибка: введите число от " + min + " до " + max);
                 }
-
-                System.out.println(
-                        "Вводи число которое указано, лишнего не придумывай, от " + min + " до " + max + "."
-                );
-
-            } catch (NumberFormatException e) {
-                System.out.println("Ошибка: введите целое число.");
-            }
-        }
+        );
     }
 
     public int readPositiveInteger(String prompt) {
-        while (true) {
-            int number = readInteger(prompt,1,MAX_VALUE);
+        return readUntilValid(
+                prompt,
+                (userInput) -> {
+                    try {
+                        int digit = Integer.parseInt(userInput);
+                        if (digit >= 0) {
+                            return digit;
+                        }
+                    } catch (NumberFormatException e){}
 
-            if (number > 0) {
-                return number;
-            }
-
-            System.out.println("Ошибка: число не может быть отрицательным.");
-        }
+                    throw new IllegalArgumentException("Ошибка: введите положительное число!");
+                }
+        );
     }
 
 
     public String readLetters(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-
-            String input = scanner.nextLine().trim();
-
-            if (input.isEmpty()) {
-                System.out.println("Ошибка: поле не может быть пустым.");
-                continue;
+        return readUntilValid(prompt, userInput -> {
+            if (userInput.matches("[а-яА-ЯёЁa-zA-Z ]+")) {
+                return userInput;
             }
-
-            if (input.matches("[а-яА-ЯёЁa-zA-Z ]+")) {
-                return input;
-            }
-
-            System.out.println(
-                    "Ошибка: здесь можно вводить только буквы."
-            );
-        }
+            throw new IllegalArgumentException("Ошибка: здесь можно вводить только буквы.");
+        });
     }
 }

@@ -25,7 +25,7 @@ public class RandomGnomeStrategy implements GnomeCreationStrategy {
 
         System.out.println("Введите количество гномов для генерации: ");
 
-        int quantity = inputReader.readInteger("Твой ответ, хозяин: ",1,MAX_VALUE);
+        int quantity = inputReader.readIntInRange("Твой ответ, хозяин: ",1,MAX_VALUE);
 
         List<Gnome> gnomeList = new ArrayList<>(quantity);
         Random random = new Random();

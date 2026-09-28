@@ -24,6 +24,13 @@ public class MainMenuSelector extends MenuSelector {
 
     @Override
     protected void switchMenu(MenuRoutes route) {
+        Menu target = menus.get(route);
+
+        if(target != null && !target.canEnter()){
+            System.out.println(target.denyMessage());
+            return;
+        }
+
         cursor = route;
     }
 

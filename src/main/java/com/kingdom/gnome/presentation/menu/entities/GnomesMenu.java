@@ -14,14 +14,20 @@ public class GnomesMenu extends Menu {
     }
 
     @Override
+    public boolean canEnter() {
+        return !gnomes.isEmpty();
+    }
+
+    @Override
+    public String denyMessage() {
+        return "Армия пуста! Сначала создайте гномов.";
+    }
+
+    @Override
     public void show() {
         System.out.println("--- Состав армии ---");
-        if (gnomes.isEmpty()) {
-            System.out.println("В RAM пока пусто.");
-        } else {
-            for (int i = 0; i < gnomes.size(); i++) {
-                System.out.println((i + 1) + ". " + gnomes.get(i));
-            }
+        for (int i = 0; i < gnomes.size(); i++) {
+            System.out.println((i + 1) + ". " + gnomes.get(i));
         }
         System.out.println("--------------------");
     }

@@ -44,22 +44,6 @@ public class ManualMenu extends Menu {
                     gnomes.addAll(freshGnomes);
                     System.out.println("Ручной продув успех, выдавлены из пробирки!");
                 }
-                GnomeSortService sortService = new GnomeSortService();
-
-                System.out.println("\n--- Сортировка орды гномов ---");
-                System.out.println("1. По величанию");
-                System.out.println("2. По иерархии");
-                System.out.println("3. По величанию и иерархии");
-                System.out.print("Твой выбор предводитель: ");
-
-                int sortChoice = inputReader.readIntInRange("",1,3);
-
-                sortService.sort(gnomes, sortChoice);
-
-                System.out.println("\nТвоя армия после сортировки:");
-
-                gnomes.forEach(System.out::println);
-
                 yield MenuRoutes.MANUAL;
             }
             case 2 -> {

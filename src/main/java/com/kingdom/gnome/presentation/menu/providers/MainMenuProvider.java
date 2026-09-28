@@ -7,6 +7,7 @@ import com.kingdom.gnome.presentation.strategy.FileGnomeStrategy;
 import com.kingdom.gnome.presentation.strategy.ManualGnomeStrategy;
 import com.kingdom.gnome.presentation.strategy.RandomGnomeStrategy;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
+import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,9 @@ public class MainMenuProvider extends MenuProvider {
                 MenuRoutes.MAIN, new MainMenu(MenuRoutes.MAIN, inputReader),
                 MenuRoutes.RANDOM, new RandomMenu(MenuRoutes.RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
                 MenuRoutes.MANUAL, new ManualMenu(MenuRoutes.MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
-                MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes, inputReader)
+                MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes, inputReader),
+                MenuRoutes.SORT, new SortMenu(MenuRoutes.SORT, new GnomeSortService(), gnomes, inputReader),
+                MenuRoutes.GNOMES, new GnomesMenu(MenuRoutes.GNOMES, gnomes)
         );
     }
 }

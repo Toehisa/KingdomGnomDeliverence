@@ -2,8 +2,7 @@ package com.kingdom.gnome.service.perform.fileStrategy.SortService;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class GnomeSortService {
 
@@ -30,26 +29,21 @@ public class GnomeSortService {
         );
     }
 
-    public void sort(List<Gnome> gnomes, int choice) {
+    public void sortByStaminaEvensOnly(List<Gnome> gnomes ) {
+        List<Gnome> evens = new ArrayList<>();
+        for(Gnome gnome : gnomes) {
+            if(gnome.getRole().getBaseStamina() % 2 == 0){
+                evens.add(gnome);
+            }
+        }
 
-        switch (choice) {
+        evens.sort(Gnome::compareByStamina);
 
-            case 1:
-                sortByName(gnomes);
-                break;
-
-            case 2:
-                sortByRole(gnomes);
-                break;
-
-            case 3:
-                sortByNameAndRole(gnomes);
-                break;
-
-            default:
-                throw new IllegalArgumentException(
-                        "Неизвестный вариант сортировки"
-                );
+        int evenIndex = 0;
+        for (int i = 0; i < gnomes.size(); i++) {
+            if(gnomes.get(i).getRole().getBaseStamina() % 2 == 0) {
+                gnomes.set(i, evens.get(evenIndex++));
+            }
         }
     }
 }

@@ -12,4 +12,7 @@ abstract public class Menu {
     }
     public abstract void show();
     public abstract MenuRoutes execute();
+
+    public boolean canEnter() {return true; }
+    public String denyMessage() {return ""; }
 }

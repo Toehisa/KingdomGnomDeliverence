@@ -26,9 +26,9 @@ public class MainMenuProvider extends MenuProvider {
                 MenuRoutes.MAIN, new MainMenu(MenuRoutes.MAIN, inputReader),
                 MenuRoutes.RANDOM, new RandomMenu(MenuRoutes.RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
                 MenuRoutes.MANUAL, new ManualMenu(MenuRoutes.MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
-                MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes, inputReader)
                 MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes, inputReader),
                 MenuRoutes.SORT, new SortMenu(MenuRoutes.SORT, new GnomeSortService(), gnomes, inputReader),
+                MenuRoutes.GNOMES, new GnomesMenu(MenuRoutes.GNOMES, gnomes)
         );
     }
 }

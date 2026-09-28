@@ -21,8 +21,9 @@ public class MainMenu extends Menu {
         System.out.println("1. Закукать случайным образом новых домашних работ, гномов");
         System.out.println("2. Слепить жидких гномов вручную");
         System.out.println("3. Десериализовать гномов в рам помощью из файла");
-        System.out.println("4. Распределить армию в нужную ротацию");
-        System.out.println("5. Доблестно ливнуть с тылом под гномий ансамбль");
+        System.out.println("4. Глянуть на текущую армию");
+        System.out.println("5. Распределить армию в нужную ротацию");
+        System.out.println("6. Доблестно ливнуть с тылом под гномий ансамбль");
 
     }
 
@@ -31,7 +32,10 @@ public class MainMenu extends Menu {
     public MenuRoutes execute() {
         return inputReader.readUntilValid(
                 "Введите число: ",
-                (userInput) -> MenuRoutes.fromStr(userInput, RANDOM, MANUAL, FILE, EXIT)
+                (userInput) -> MenuRoutes.fromStr(userInput, RANDOM, MANUAL, FILE,
+                        GNOMES,
+                        SORT,
+                        EXIT)
         );
     }
 }

@@ -5,6 +5,8 @@ public enum MenuRoutes {
     RANDOM,
     FILE,
     MANUAL,
+    SORT,
+    GNOMES,
     EXIT;
 
     public static MenuRoutes fromStr(String str, MenuRoutes...routes) {

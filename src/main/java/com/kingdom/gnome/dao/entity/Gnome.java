@@ -25,6 +25,13 @@ public final class Gnome {
                 '}';
     }
 
+    public int compareByStamina(Gnome other) {
+        return Integer.compare(
+                this.role.getBaseStamina(),
+                other.role.getBaseStamina()
+        );
+    }
+
     public static GnomeBuilder builder() { return new GnomeBuilder(); }
 
     public static class GnomeBuilder {

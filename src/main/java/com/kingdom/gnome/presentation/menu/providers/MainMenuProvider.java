@@ -1,5 +1,6 @@
 package com.kingdom.gnome.presentation.menu.providers;
 
+import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.*;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
@@ -28,7 +29,7 @@ public class MainMenuProvider extends MenuProvider {
                 RANDOM, new RandomMenu(RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
                 MANUAL, new ManualMenu(MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
                 FILE, new FileMenu(FILE, new FileGnomeStrategy(), gnomes, inputReader),
-                SORT, new SortMenu(SORT, new GnomeSortService(), gnomes, inputReader),
+                SORT, new SortMenu(SORT, new GnomeSortService(), gnomes, inputReader, new GnomeFileWriter("sorted_gnomes.txt")),
                 GNOMES, new GnomesMenu(GNOMES, gnomes),
                 EXIT, new ExitMenu()
         );

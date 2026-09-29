@@ -9,7 +9,6 @@ import java.util.*;
 
 abstract public class MenuSelector {
     final Map<MenuRoutes, Menu> menus;
-    boolean isRunnable = true;
     MenuRoutes cursor;
 
     MenuSelector() {

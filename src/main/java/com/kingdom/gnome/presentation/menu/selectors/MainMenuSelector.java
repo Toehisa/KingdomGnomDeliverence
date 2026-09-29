@@ -1,5 +1,6 @@
 package com.kingdom.gnome.presentation.menu.selectors;
 
+import com.kingdom.gnome.presentation.menu.entities.ExitMenu;
 import com.kingdom.gnome.presentation.menu.entities.Menu;
 import com.kingdom.gnome.presentation.menu.providers.MenuProvider;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
@@ -45,6 +46,8 @@ public class MainMenuSelector extends MenuSelector {
             var route = currentMenu().execute();
             switchMenu(route);
         } while (!cursorIsExit());
+
+        showMenu();
     }
 
     private boolean cursorIsExit() {

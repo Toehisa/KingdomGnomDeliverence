@@ -8,6 +8,7 @@ import com.kingdom.gnome.presentation.strategy.ManualGnomeStrategy;
 import com.kingdom.gnome.presentation.strategy.RandomGnomeStrategy;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
+import static com.kingdom.gnome.presentation.menu.routes.MenuRoutes.*;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,13 @@ public class MainMenuProvider extends MenuProvider {
     @Override
     public Map<MenuRoutes, Menu> provideMenus() {
         return Map.of(
-                MenuRoutes.MAIN, new MainMenu(MenuRoutes.MAIN, inputReader),
-                MenuRoutes.RANDOM, new RandomMenu(MenuRoutes.RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
-                MenuRoutes.MANUAL, new ManualMenu(MenuRoutes.MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
-                MenuRoutes.FILE, new FileMenu(MenuRoutes.FILE, new FileGnomeStrategy(), gnomes, inputReader),
-                MenuRoutes.SORT, new SortMenu(MenuRoutes.SORT, new GnomeSortService(), gnomes, inputReader),
-                MenuRoutes.GNOMES, new GnomesMenu(MenuRoutes.GNOMES, gnomes)
+                MAIN, new MainMenu(MAIN, inputReader),
+                RANDOM, new RandomMenu(RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
+                MANUAL, new ManualMenu(MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
+                FILE, new FileMenu(FILE, new FileGnomeStrategy(), gnomes, inputReader),
+                SORT, new SortMenu(SORT, new GnomeSortService(), gnomes, inputReader),
+                GNOMES, new GnomesMenu(GNOMES, gnomes),
+                EXIT, new ExitMenu()
         );
     }
 }

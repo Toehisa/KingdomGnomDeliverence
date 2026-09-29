@@ -4,6 +4,7 @@ import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
+import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -30,12 +31,14 @@ public class SortMenu extends Menu {
     private final List<Gnome> gnomes;
     private final ConsoleInputReader inputReader;
     private final GnomeSortService sortService;
+    private final GnomeFileWriter fileWriter;
 
-    public SortMenu(MenuRoutes routeID, GnomeSortService sortService, List<Gnome> gnomes, ConsoleInputReader inputReader) {
+    public SortMenu(MenuRoutes routeID, GnomeSortService sortService, List<Gnome> gnomes, ConsoleInputReader inputReader,GnomeFileWriter fileWriter) {
         super(routeID);
         this.gnomes = gnomes;
         this.inputReader = inputReader;
         this.sortService = sortService;
+        this.fileWriter = fileWriter;
     }
 
     @Override

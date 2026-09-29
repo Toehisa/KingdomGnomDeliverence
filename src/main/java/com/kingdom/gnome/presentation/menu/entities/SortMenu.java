@@ -71,7 +71,11 @@ public class SortMenu extends Menu {
         OPTIONS[num - 1]
                 .action
                 .accept(sortService, gnomes);
-        System.out.println("Гномы успешно отсортированы");
+
+        fileWriter.appendGnomes(gnomes);
+
+        System.out.println("Гномы успешно отсортированы и записаны в файл");
+
         return MenuRoutes.SORT;
     }
 }

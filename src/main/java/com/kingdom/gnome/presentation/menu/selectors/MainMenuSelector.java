@@ -15,8 +15,6 @@ public class MainMenuSelector extends MenuSelector {
         cursor = MenuRoutes.MAIN;
     }
 
-
-
     @Override
     protected void showMenu() {
         currentMenu().show();
@@ -42,11 +40,14 @@ public class MainMenuSelector extends MenuSelector {
 
     @Override
     public void run(Scanner scanner) {
-        while (isRunnable) {
+        do {
             showMenu();
             var route = currentMenu().execute();
             switchMenu(route);
+        } while (!cursorIsExit());
+    }
 
-        }
+    private boolean cursorIsExit() {
+        return cursor == MenuRoutes.EXIT;
     }
 }

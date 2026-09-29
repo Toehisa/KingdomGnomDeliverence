@@ -15,7 +15,6 @@ public class ExitMenu extends Menu{
 
     @Override
     public MenuRoutes execute() {
-        System.exit(0);
         return null;
     }
 }

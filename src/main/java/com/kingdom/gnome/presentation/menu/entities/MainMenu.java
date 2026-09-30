@@ -18,7 +18,7 @@ public class MainMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("1. Закукать случайным образом новых домашних работ, гномов");
+        System.out.println("1. Закукать случайным образом новых домашних рабов, гномов");
         System.out.println("2. Слепить жидких гномов вручную");
         System.out.println("3. Десериализовать гномов в рам помощью из файла");
         System.out.println("4. Глянуть на текущую армию");

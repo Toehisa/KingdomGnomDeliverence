@@ -1,5 +1,7 @@
 package com.kingdom.gnome.presentation.menu.providers;
 
+import com.kingdom.gnome.service.counting.GnomeCounterService;
+import com.kingdom.gnome.service.counting.ThreadSupplier;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.*;
@@ -17,10 +19,12 @@ import java.util.Map;
 public class MainMenuProvider extends MenuProvider {
 
     private final ConsoleInputReader inputReader;
+    private final GnomeCounterService counterService;
 
-    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader) {
+    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader, ThreadSupplier threadSupplier) {
         super(gnomes);
         this.inputReader = inputReader;
+        this.counterService = new GnomeCounterService(threadSupplier);
     }
     @Override
     public Map<MenuRoutes, Menu> provideMenus() {
@@ -31,6 +35,7 @@ public class MainMenuProvider extends MenuProvider {
                 FILE, new FileMenu(FILE, new FileGnomeStrategy(), gnomes, inputReader),
                 SORT, new SortMenu(SORT, new GnomeSortService(), gnomes, inputReader, new GnomeFileWriter("sorted_gnomes.txt")),
                 GNOMES, new GnomesMenu(GNOMES, gnomes),
+                SEARCH, new SearchMenu(SEARCH, counterService, gnomes, inputReader),
                 EXIT, new ExitMenu()
         );
     }

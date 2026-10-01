@@ -7,6 +7,7 @@ public enum MenuRoutes {
     MANUAL,
     SORT,
     GNOMES,
+    SEARCH,
     EXIT;
 
     public static MenuRoutes fromStr(String str, MenuRoutes...routes) {

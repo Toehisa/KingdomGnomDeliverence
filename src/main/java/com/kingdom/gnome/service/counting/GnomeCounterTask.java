@@ -3,14 +3,14 @@ package com.kingdom.gnome.service.counting;
 import com.kingdom.gnome.dao.entity.Gnome;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
-public class GnomeCounterTask implements Runnable{
+public class GnomeCounterTask implements Callable<Integer> {
     private final List<Gnome> gnomes;
     private final String type;
     private final String value;
     private final int rightBound;
     private final int leftBound;
-    private int result = 0;
 
     GnomeCounterTask(List<Gnome> gnomes, String type, String value, int leftBound, int rightBound) {
         this.gnomes = gnomes;
@@ -20,25 +20,23 @@ public class GnomeCounterTask implements Runnable{
         this.value = value;
     }
 
-    public int getResult() {
-        return result;
-    }
-
     @Override
-    public void run() {
-        setCountByTarget();
+    public Integer call() throws IllegalArgumentException {
+        return getCountByTarget();
     }
 
-    private void setCountByTarget() {
-        switch (type) {
-            case "NAME" -> setNameCount(value);
-            case "ROLE" -> setRoleCount(value);
-            case "EMAIL" -> setEmailCount(value);
+    private int getCountByTarget() {
+        return switch (type) {
+            case "NAME" -> getNameCount(value);
+            case "ROLE" -> getRoleCount(value);
+            case "EMAIL" -> getEmailCount(value);
             default -> throw new IllegalArgumentException("Неверное поле");
         };
     }
 
-    private void setNameCount(String targetName) {
+    private int getNameCount(String targetName) {
+        int result = 0;
+
         for (int i = leftBound; i <= rightBound; i++) {
             String gnomeName = gnomes.get(i).getName();
 
@@ -46,8 +44,12 @@ public class GnomeCounterTask implements Runnable{
                 result++;
             }
         }
+
+        return result;
     }
-    private void setRoleCount(String targetRole) {
+    private int getRoleCount(String targetRole) {
+        int result = 0;
+
         for (int i = leftBound; i <= rightBound; i++) {
             String gnomeRole = gnomes.get(i).getRole().getTitle();
 
@@ -55,9 +57,13 @@ public class GnomeCounterTask implements Runnable{
                 result++;
             }
         }
+
+        return result;
     }
 
-    private void setEmailCount(String targetEmail) {
+    private int getEmailCount(String targetEmail) {
+        int result = 0;
+
         for (int i = leftBound; i <= rightBound; i++) {
             String gnomeEmail = gnomes.get(i).getEmail().toString();
 
@@ -65,5 +71,7 @@ public class GnomeCounterTask implements Runnable{
                 result++;
             }
         }
+
+        return result;
     }
 }

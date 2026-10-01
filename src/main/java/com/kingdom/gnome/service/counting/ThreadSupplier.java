@@ -1,7 +1,9 @@
 package com.kingdom.gnome.service.counting;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.FutureTask;
 
 public class ThreadSupplier {
     public ThreadSupplier() {}
@@ -10,8 +12,8 @@ public class ThreadSupplier {
         return Runtime.getRuntime().availableProcessors();
     }
 
-    public List<Thread> buildThreads(List<GnomeCounterTask> tasks) {
-        List<Thread> threads = new ArrayList<>();
+    public List<Thread> buildThreads(List<FutureTask<Integer>> tasks) {
+        List<Thread> threads = new LinkedList<>();
 
         for(var task : tasks) {
             threads.addLast(new Thread(task));

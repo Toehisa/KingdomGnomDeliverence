@@ -11,9 +11,9 @@ import java.util.function.BiConsumer;
 
 public class SortMenu extends Menu {
     private enum SortOption {
-        BY_NAME("По величанию", GnomeSortService::sortByName),
-        BY_ROLE("По иерархии", GnomeSortService::sortByRole),
-        BY_NAME_AND_ROLE("По величанию и иерархии", GnomeSortService::sortByNameAndRole),
+        BY_NAME("По имени", GnomeSortService::sortByName),
+        BY_ROLE("По роли", GnomeSortService::sortByRole),
+        BY_NAME_AND_ROLE("По имени и роли", GnomeSortService::sortByNameAndRole),
         BY_STAMINA_EVENS("По стамине, оставляя нечетные на месте", GnomeSortService::sortByStaminaEvensOnly);
 
         private final String label;

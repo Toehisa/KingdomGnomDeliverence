@@ -1,0 +1,82 @@
+package sort;
+
+import com.kingdom.gnome.dao.entity.Email;
+import com.kingdom.gnome.dao.entity.Gnome;
+import com.kingdom.gnome.dao.entity.GnomeRole;
+import com.kingdom.gnome.service.counting.GnomeCounterService;
+import com.kingdom.gnome.service.counting.ThreadSupplier;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class GnomeCounterServiceTest {
+
+    private GnomeCounterService counterService;
+    private List<Gnome> testGnomes;
+
+    @BeforeEach
+    void setUp() {
+        ThreadSupplier threadSupplier = new ThreadSupplier();
+        counterService = new GnomeCounterService(threadSupplier);
+        testGnomes = new ArrayList<>();
+    }
+
+    @Test
+    void shouldReturnZeroWhenCollectionIsEmpty() {
+        int count = counterService.getOccurrencesCount("NAME", "Гимли", testGnomes);
+        assertEquals(0, count, "Если коллекция пуста, результат должен быть 0");
+    }
+
+    @Test
+    void shouldCountByNameCorrectly() {
+        // Собираем гномов строго через твой каноничный Builder
+        testGnomes.add(Gnome.builder().name("Гимли").role(GnomeRole.WARRIOR).email(new Email("gimli@mail.ru")).build());
+        testGnomes.add(Gnome.builder().name("Торин").role(GnomeRole.KING).email(new Email("thorin@mail.ru")).build());
+        testGnomes.add(Gnome.builder().name("Гимли").role(GnomeRole.MINER).email(new Email("gimli2@mail.ru")).build());
+
+        int count = counterService.getOccurrencesCount("NAME", "Гимли", testGnomes);
+        assertEquals(2, count);
+    }
+
+    @Test
+    void shouldCountByRoleCorrectly() {
+        testGnomes.add(Gnome.builder().name("Балин").role(GnomeRole.MINER).email(new Email("balin@mail.ru")).build());
+        testGnomes.add(Gnome.builder().name("Глоин").role(GnomeRole.MINER).email(new Email("gloin@mail.ru")).build());
+        testGnomes.add(Gnome.builder().name("Двалин").role(GnomeRole.WARRIOR).email(new Email("dvalin@mail.ru")).build());
+
+        int count = counterService.getOccurrencesCount("ROLE", "Шахтёр", testGnomes);
+        assertEquals(2, count);
+    }
+
+    @Test
+    void shouldReturnZeroWhenNoMatchesFound() {
+        testGnomes.add(Gnome.builder().name("Гимли").role(GnomeRole.WARRIOR).email(new Email("gimli@mail.ru")).build());
+
+        int count = counterService.getOccurrencesCount("NAME", "Леголас", testGnomes);
+        assertEquals(0, count);
+    }
+
+    @Test
+    void stressTestWithRemainderDistribution() {
+        // Стресс-тест на 80 003 гнома для проверки распределения остатка по ядрам ПК
+        String targetName = "ЦелевойГном";
+        int expectedCount = 500;
+
+        for (int i = 0; i < 80003; i++) {
+            if (i < expectedCount) {
+                testGnomes.add(Gnome.builder().name(targetName).role(GnomeRole.BUILDER).email(new Email("test" + i + "@mail.ru")).build());
+            } else {
+                testGnomes.add(Gnome.builder().name("ОбычныйГном").role(GnomeRole.BUILDER).email(new Email("test" + i + "@mail.ru")).build());
+            }
+        }
+
+        int actualCount = counterService.getOccurrencesCount("NAME", targetName, testGnomes);
+        assertEquals(expectedCount, actualCount, "Математика границ потеряла элементы при делении с остатком!");
+    }
+}
+
+

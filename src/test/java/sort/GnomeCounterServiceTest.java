@@ -33,7 +33,6 @@ class GnomeCounterServiceTest {
 
     @Test
     void shouldCountByNameCorrectly() {
-        // Собираем гномов строго через твой каноничный Builder
         testGnomes.add(Gnome.builder().name("Гимли").role(GnomeRole.WARRIOR).email(new Email("gimli@mail.ru")).build());
         testGnomes.add(Gnome.builder().name("Торин").role(GnomeRole.KING).email(new Email("thorin@mail.ru")).build());
         testGnomes.add(Gnome.builder().name("Гимли").role(GnomeRole.MINER).email(new Email("gimli2@mail.ru")).build());
@@ -62,7 +61,6 @@ class GnomeCounterServiceTest {
 
     @Test
     void stressTestWithRemainderDistribution() {
-        // Стресс-тест на 80 003 гнома для проверки распределения остатка по ядрам ПК
         String targetName = "ЦелевойГном";
         int expectedCount = 500;
 

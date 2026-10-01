@@ -28,7 +28,6 @@ public class GnomeCounterService {
         return finalResult(tasks, threadCount);
     }
 
-    // Переносим аргументы в параметры приватных методов
     private void fillTaskList(List<GnomeCounterTask> tasks, List<Gnome> gnomes, String type, String value, int totalSize, int threadCount) {
         for (int i = 0; i < threadCount; i++) {
             int leftBound = i * totalSize / threadCount;

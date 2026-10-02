@@ -25,7 +25,7 @@ public class CustomLinkedList<E> {
     }
 
     public void add(E value) {
-        Node<E> newNode = new Node<E>(value);
+        Node<E> newNode = new Node<>(value);
         if (size == 0) {
             head = tail = newNode;
         }
@@ -51,35 +51,30 @@ public class CustomLinkedList<E> {
     }
 
     public void addAtHead(E value) {
+        Node<E> newNode = new Node<>(value);
         if (head != null) {
-            Node<E> newNode = new Node<E>(value);
             head.prev = newNode;
             newNode.next = head;
             head = newNode;
-            size++;
         }
         else {
-            Node<E> newNode = new Node<E>(value);
             head = newNode;
             tail = newNode;
-            size++;
         }
+        size++;
     }
 
     public void addAtTail(E value) {
+        Node<E> newNode = new Node<>(value);
         if (tail != null) {
-            Node<E> newNode = new Node<E>(value);
             tail.next = newNode;
             newNode.prev = tail;
-            tail = newNode;
-            size++;
         }
         else {
-            Node<E> newNode = new Node<E>(value);
             head = newNode;
-            tail = newNode;
-            size++;
         }
+        tail = newNode;
+        size++;
     }
 
     public void deleteAtIndex(int index) {

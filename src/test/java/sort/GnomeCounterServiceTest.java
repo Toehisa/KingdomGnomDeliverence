@@ -4,12 +4,14 @@ import com.kingdom.gnome.dao.entity.Email;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.entity.GnomeRole;
 import com.kingdom.gnome.service.counting.GnomeCounterService;
-import com.kingdom.gnome.service.counting.ThreadSupplier;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,12 +19,20 @@ class GnomeCounterServiceTest {
 
     private GnomeCounterService counterService;
     private List<Gnome> testGnomes;
+    private ExecutorService executorService;
 
     @BeforeEach
     void setUp() {
-        ThreadSupplier threadSupplier = new ThreadSupplier();
-        counterService = new GnomeCounterService(threadSupplier);
+        executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        counterService = new GnomeCounterService(executorService);
         testGnomes = new ArrayList<>();
+    }
+
+    @AfterEach
+    void tearDown() {
+        if (executorService != null) {
+            executorService.shutdown();
+        }
     }
 
     @Test
@@ -76,5 +86,3 @@ class GnomeCounterServiceTest {
         assertEquals(expectedCount, actualCount, "Математика границ потеряла элементы при делении с остатком!");
     }
 }
-
-

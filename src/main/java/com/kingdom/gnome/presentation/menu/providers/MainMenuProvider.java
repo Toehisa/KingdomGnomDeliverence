@@ -1,7 +1,6 @@
 package com.kingdom.gnome.presentation.menu.providers;
 
 import com.kingdom.gnome.service.counting.GnomeCounterService;
-import com.kingdom.gnome.service.counting.ThreadSupplier;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.*;
@@ -15,13 +14,14 @@ import static com.kingdom.gnome.presentation.menu.routes.MenuRoutes.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 public class MainMenuProvider extends MenuProvider {
 
     private final ConsoleInputReader inputReader;
     private final GnomeCounterService counterService;
 
-    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader, ThreadSupplier threadSupplier) {
+    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader, ExecutorService threadSupplier) {
         super(gnomes);
         this.inputReader = inputReader;
         this.counterService = new GnomeCounterService(threadSupplier);

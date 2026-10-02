@@ -11,6 +11,8 @@ import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.Integer.MAX_VALUE;
 
@@ -24,25 +26,18 @@ public class RandomGnomeStrategy implements GnomeCreationStrategy {
     public List<Gnome> create(ConsoleInputReader inputReader) {
 
         System.out.println("Введите количество гномов для генерации: ");
-
         int quantity = inputReader.readIntInRange("Твой ответ, хозяин: ",1,MAX_VALUE);
 
-        List<Gnome> gnomeList = new ArrayList<>(quantity);
         Random random = new Random();
-
-        for (int i = 0; i < quantity; i++) {
-            Gnome gnome = new Gnome.GnomeBuilder()
+        List<Gnome> gnomeList = Stream.generate(() -> new Gnome.GnomeBuilder()
                 .name(nameArray[random.nextInt(nameArray.length)])
                 .role(GnomeRole.values()[random.nextInt(GnomeRole.values().length)])
                 .email(new Email(emailArray[random.nextInt(emailArray.length)]
-                    + domainArray[random.nextInt(domainArray.length)]))
-                .build();
-
-            gnomeList.add(gnome);
-        }
-
+                        + domainArray[random.nextInt(domainArray.length)]))
+                .build())
+                .limit(quantity)
+                .toList();
 
         return gnomeList;
     }
-    //Рандомные гномы 2
 }

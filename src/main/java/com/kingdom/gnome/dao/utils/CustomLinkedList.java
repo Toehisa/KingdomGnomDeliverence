@@ -183,6 +183,7 @@ public class CustomLinkedList<E> implements List<E> {
         return tail.value;
     }
 
+    @Override
     public int size() {
         return size;
     }
@@ -194,12 +195,28 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        Node<E> current = head;
+
+        for (int i = 0; current != null; i++) {
+            var val = current.value;
+            if (val != null && val.equals(o)) return i;
+            if (o == null && val == null) return i;
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        Node<E> current = tail;
+
+        for (int i = size - 1; current != null; i--) {
+            var val = current.value;
+            if (val != null && val.equals(o)) return i;
+            if (o == null && val == null) return i;
+            current = current.prev;
+        }
+        return -1;
     }
 
     @Override
@@ -254,19 +271,56 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr = new Object[size];
+        var current = head;
+
+        for (int i = 0; current != null; i++) {
+            arr[i] = current.value;
+            current = current.next;
+        }
+
+        return arr;
     }
 
     @Override
     public Object[] toArray(IntFunction generator) {
-        return List.super.toArray(generator);
+        Object[] arr = (Object[]) generator.apply(size);
+        var current = head;
+
+        for (int i = 0; current != null; i++) {
+            arr[i] = current.value;
+            current = current.next;
+        }
+
+        return arr;
     }
 
 
-    @Override
     public boolean remove(Object o) {
+        Node<E> current = head;
+
+        while (current != null) {
+            if (Objects.equals(o, current.value)) {
+                if (current.prev != null) {
+                    current.prev.next = current.next;
+                } else {
+                    head = current.next;
+                }
+
+                if (current.next != null) {
+                    current.next.prev = current.prev;
+                } else {
+                    tail = current.prev;
+                }
+
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
+
 
     @Override
     public boolean addAll(Collection c) {
@@ -310,6 +364,21 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray(Object[] a) {
-        return new Object[0];
+        if (a.length < size) {
+            a = (Object[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+        }
+
+        Node<E> current = head;
+        for (int i = 0; current != null; i++) {
+            a[i] = current.value;
+            current = current.next;
+        }
+
+        if (a.length > size) {
+            a[size] = null;
+        }
+
+        return a;
     }
+
 }

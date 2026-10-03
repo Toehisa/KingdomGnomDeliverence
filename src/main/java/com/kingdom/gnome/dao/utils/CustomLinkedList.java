@@ -295,10 +295,31 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
 
-    @Override
     public boolean remove(Object o) {
+        Node<E> current = head;
+
+        while (current != null) {
+            if (Objects.equals(o, current.value)) {
+                if (current.prev != null) {
+                    current.prev.next = current.next;
+                } else {
+                    head = current.next;
+                }
+
+                if (current.next != null) {
+                    current.next.prev = current.prev;
+                } else {
+                    tail = current.prev;
+                }
+
+                size--;
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
+
 
     @Override
     public boolean addAll(Collection c) {

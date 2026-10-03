@@ -194,7 +194,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        Node<E> current = head;
+
+        for (int i = 0; current != null; i++) {
+            var val = current.value;
+            if (val != null && val.equals(o)) return i;
+            if (o == null && val == null) return i;
+            current = current.next;
+        }
+        return -1;
     }
 
     @Override

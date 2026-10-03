@@ -1,4 +1,4 @@
-package sort;
+package counting;
 
 import com.kingdom.gnome.dao.entity.Email;
 import com.kingdom.gnome.dao.entity.Gnome;

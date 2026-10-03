@@ -369,7 +369,7 @@ public class CustomLinkedList<E> implements List<E> {
 
         Node<E> current = head;
         for (int i = 0; current != null; i++) {
-            a[i] = current.value; // Просто складываем значение ноды в Object[]
+            a[i] = current.value;
             current = current.next;
         }
 

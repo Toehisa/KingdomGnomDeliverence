@@ -2,7 +2,7 @@ package com.kingdom.gnome.service.counting;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -14,10 +14,7 @@ public class GnomeCounterService {
     }
 
     public int getOccurrencesCount(String type, String value, List<Gnome> gnomes) {
-        int totalSize = gnomes.size();
-        int threadCount = Runtime.getRuntime().availableProcessors();
-
-        List<Callable<Integer>> tasks = createTaskList(gnomes, type, value, totalSize, threadCount);
+        List<Callable<Integer>> tasks = createTaskList(gnomes, type, value);
         List<Future<Integer>> taskResults;
 
         try {
@@ -33,12 +30,11 @@ public class GnomeCounterService {
         return 0;
     }
 
-    private List<Callable<Integer>> createTaskList(List<Gnome> gnomes, String type, String value, int totalSize, int threadCount) {
-        List<Callable<Integer>> tasks = new LinkedList<>();
-        for (int i = 0; i < threadCount; i++) {
-            int leftBound = i * totalSize / threadCount;
-            int rightBound = (i + 1) * totalSize / threadCount - 1;
-            tasks.addLast(new GnomeCounterTask(gnomes, type, value, leftBound, rightBound));
+    private List<Callable<Integer>> createTaskList(List<Gnome> gnomes, String type, String value) {
+        List<Callable<Integer>> tasks = new ArrayList<>(gnomes.size());
+
+        for (var gnome : gnomes) {
+            tasks.add(new GnomeCounterTask(gnome, type, value));
         }
 
         return tasks;

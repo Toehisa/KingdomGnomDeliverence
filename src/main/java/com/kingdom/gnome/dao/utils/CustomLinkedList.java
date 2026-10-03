@@ -207,7 +207,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        Node<E> current = tail;
+
+        for (int i = size - 1; current != null; i--) {
+            var val = current.value;
+            if (val != null && val.equals(o)) return i;
+            if (o == null && val == null) return i;
+            current = current.prev;
+        }
+        return -1;
     }
 
     @Override

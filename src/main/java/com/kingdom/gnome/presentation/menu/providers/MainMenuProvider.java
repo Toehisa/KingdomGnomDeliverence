@@ -14,17 +14,17 @@ import static com.kingdom.gnome.presentation.menu.routes.MenuRoutes.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 
 public class MainMenuProvider extends MenuProvider {
 
     private final ConsoleInputReader inputReader;
     private final GnomeCounterService counterService;
 
-    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader, ExecutorService threadSupplier) {
+    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader, ForkJoinPool pool) {
         super(gnomes);
         this.inputReader = inputReader;
-        this.counterService = new GnomeCounterService(threadSupplier);
+        this.counterService = new GnomeCounterService(pool);
     }
     @Override
     public Map<MenuRoutes, Menu> provideMenus() {

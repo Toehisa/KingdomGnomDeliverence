@@ -270,7 +270,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr = new Object[size];
+        var current = head;
+
+        for (int i = 0; current != null; i++) {
+            arr[i] = current.value;
+            current = current.next;
+        }
+
+        return arr;
     }
 
     @Override

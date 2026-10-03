@@ -10,24 +10,23 @@ import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * Стартовая точка приложения
  * */
 public class Launcher {
     public static void main(String[] args) {
-        ExecutorService threadSupplier = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ForkJoinPool additionalThreadPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
 
         try (Scanner scanner = new Scanner(System.in)){
             List<Gnome> gnomes = new ArrayList<>();
             ConsoleInputReader inputReader = new ConsoleInputReader(scanner);
-            MenuProvider menuProvider = new MainMenuProvider(gnomes,inputReader, threadSupplier);
+            MenuProvider menuProvider = new MainMenuProvider(gnomes,inputReader, additionalThreadPool);
             MenuSelector menuSelector = new MainMenuSelector(menuProvider);
             menuSelector.run(scanner);
         } finally {
-            threadSupplier.shutdown();
+            additionalThreadPool.shutdown();
         }
     }
 }

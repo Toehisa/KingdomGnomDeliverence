@@ -183,6 +183,7 @@ public class CustomLinkedList<E> implements List<E> {
         return tail.value;
     }
 
+    @Override
     public int size() {
         return size;
     }

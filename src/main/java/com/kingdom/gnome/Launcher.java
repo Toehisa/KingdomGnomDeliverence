@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
  * */
 public class Launcher {
     public static void main(String[] args) {
-        ExecutorService threadSupplier = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService threadSupplier = Executors.newVirtualThreadPerTaskExecutor();
 
         try (Scanner scanner = new Scanner(System.in)){
             List<Gnome> gnomes = new ArrayList<>();

@@ -283,7 +283,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray(IntFunction generator) {
-        return List.super.toArray(generator);
+        Object[] arr = (Object[]) generator.apply(size);
+        var current = head;
+
+        for (int i = 0; current != null; i++) {
+            arr[i] = current.value;
+            current = current.next;
+        }
+
+        return arr;
     }
 
 

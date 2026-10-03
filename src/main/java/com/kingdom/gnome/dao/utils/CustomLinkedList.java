@@ -363,6 +363,21 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public Object[] toArray(Object[] a) {
-        return new Object[0];
+        if (a.length < size) {
+            a = (Object[]) java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+        }
+
+        Node<E> current = head;
+        for (int i = 0; current != null; i++) {
+            a[i] = current.value; // Просто складываем значение ноды в Object[]
+            current = current.next;
+        }
+
+        if (a.length > size) {
+            a[size] = null;
+        }
+
+        return a;
     }
+
 }

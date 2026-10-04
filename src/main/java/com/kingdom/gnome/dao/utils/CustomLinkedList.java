@@ -220,13 +220,13 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public ListIterator listIterator() {
-        return null;
+    public ListIterator<E> listIterator() {
+        return new CustomListIterator(0);
     }
 
     @Override
-    public ListIterator listIterator(int index) {
-        return null;
+    public ListIterator<E> listIterator(int index) {
+        return new CustomListIterator(index);
     }
 
     @Override
@@ -256,12 +256,20 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public boolean contains(Object o) {
+        Node<E> current = head;
+
+        for(int i = 0; i < size; i++) {
+            if (current.value.equals(o)) {
+                return true;
+            }
+            current = current.next;
+        }
         return false;
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<E> iterator() {
+        return new CustomIterator();
     }
 
     @Override
@@ -323,8 +331,15 @@ public class CustomLinkedList<E> implements List<E> {
 
 
     @Override
-    public boolean addAll(Collection c) {
-        return false;
+    public boolean addAll(Collection<? extends E> c) {
+        if (c == null || c.isEmpty()) {
+            return false;
+        }
+        for (E element : c){
+            add(element);
+        }
+
+        return true;
     }
 
     @Override
@@ -333,8 +348,15 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean addAll(int index, Collection c) {
-        return false;
+    public boolean addAll(int index, Collection<? extends E> c) {
+        if (c == null || c.isEmpty()) {
+            return false;
+        }
+        var arr = (E[]) c.toArray();
+        for(int j = 0; j < arr.length-1; j++) {
+            add(index, arr[j]);
+        }
+        return true;
     }
 
     @Override
@@ -353,8 +375,12 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean removeAll(Collection c) {
-        return false;
+    public boolean removeAll(Collection<?> c) {
+        boolean res = false;
+        for(var i : c) {
+            res = remove(c);
+        }
+        return res;
     }
 
     @Override
@@ -381,4 +407,124 @@ public class CustomLinkedList<E> implements List<E> {
         return a;
     }
 
+    private class CustomIterator implements Iterator<E> {
+        Node current;
+        int cursor;
+
+        CustomIterator() {
+            current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return this.cursor != size;
+        }
+
+        @Override
+        public E next() {
+            if(cursor >= size) {
+                throw new NoSuchElementException();
+            } else {
+                E data = (E) current.value;
+                current = current.next;
+                cursor++;
+                return data;
+            }
+        }
+    }
+
+    public void deleteAtIndex(int index) {
+        if (index > 0 && index < size - 1) {
+            Node current = head;
+
+            for (int i = 0; i < index - 1; i++) {
+                current = current.next;
+            }
+
+            current.next = current.next.next;
+            size--;
+        } else if (index == 0) {
+            deleteAtStart();
+        } else if (index == size - 1) {
+            deleteAtTail();
+        }
+    }
+
+    public void deleteAtStart() {
+        if (size == 1) {
+            clear();
+        } else if (head != null) {
+            head = head.next;
+            size--;
+        }
+    }
+
+    public void deleteAtTail() {
+        if (size > 1) {
+            Node current = head;
+
+            while (current.next.next != null) {
+                current = current.next;
+            }
+
+            current.next = null;
+
+            tail = current;
+            size--;
+        } else if (size == 1) {
+            clear();
+            size = 0;
+        }
+    }
+
+    private class CustomListIterator extends CustomLinkedList<E>.CustomIterator implements ListIterator<E> {
+        CustomListIterator(int index) {
+            super();
+
+            cursor = index;
+
+            for(int i = 0; i < cursor; i++) {
+                current = current.next;
+            }
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return this.cursor != 0;
+        }
+
+        @Override
+        public E previous() {
+            return CustomLinkedList.this.get(--cursor);
+        }
+
+        @Override
+        public int nextIndex() {
+            return this.cursor;
+        }
+
+        @Override
+        public int previousIndex() {
+            return this.cursor - 1;
+        }
+
+        @Override
+        public void remove() {
+            deleteAtIndex(cursor);
+        }
+
+        @Override
+        public void set(E e) {
+            Node current = head;
+            for (int j = 0; j < cursor; j++) {
+                current = current.next;
+            }
+            current.value = e;
+        }
+
+        @Override
+        public void add(E e) {
+            CustomLinkedList.this.add(cursor, e);
+        }
+    }
 }

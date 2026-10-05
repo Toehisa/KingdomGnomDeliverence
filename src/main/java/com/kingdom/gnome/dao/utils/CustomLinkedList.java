@@ -1,5 +1,7 @@
 package com.kingdom.gnome.dao.utils;
 
+import org.jspecify.annotations.NonNull;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.IntFunction;
@@ -331,7 +333,7 @@ public class CustomLinkedList<E> implements List<E> {
 
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
+    public boolean addAll(@NonNull Collection<? extends E> c) {
         if (c == null || c.isEmpty()) {
             return false;
         }
@@ -370,8 +372,17 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean retainAll(Collection c) {
-        return false;
+    public boolean retainAll(@NonNull Collection<?> c) {
+        boolean modified = false;
+        Iterator<E> iterator = iterator();
+        while (iterator.hasNext()) {
+            E element = iterator.next();
+            if (!c.contains(element)) {
+                iterator.remove();
+                modified = true;
+            }
+        }
+        return modified;
     }
 
     @Override
@@ -384,8 +395,13 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     @Override
-    public boolean containsAll(Collection c) {
-        return false;
+    public boolean containsAll(Collection<?> c) {
+        for (Object e : c) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -408,7 +424,7 @@ public class CustomLinkedList<E> implements List<E> {
     }
 
     private class CustomIterator implements Iterator<E> {
-        Node current;
+        Node<E> current;
         int cursor;
 
         CustomIterator() {
@@ -425,7 +441,7 @@ public class CustomLinkedList<E> implements List<E> {
             if(cursor >= size) {
                 throw new NoSuchElementException();
             } else {
-                E data = (E) current.value;
+                E data = current.value;
                 current = current.next;
                 cursor++;
                 return data;
@@ -435,7 +451,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     public void deleteAtIndex(int index) {
         if (index > 0 && index < size - 1) {
-            Node current = head;
+            Node<E> current = head;
 
             for (int i = 0; i < index - 1; i++) {
                 current = current.next;
@@ -461,7 +477,7 @@ public class CustomLinkedList<E> implements List<E> {
 
     public void deleteAtTail() {
         if (size > 1) {
-            Node current = head;
+            Node<E> current = head;
 
             while (current.next.next != null) {
                 current = current.next;
@@ -480,9 +496,7 @@ public class CustomLinkedList<E> implements List<E> {
     private class CustomListIterator extends CustomLinkedList<E>.CustomIterator implements ListIterator<E> {
         CustomListIterator(int index) {
             super();
-
             cursor = index;
-
             for(int i = 0; i < cursor; i++) {
                 current = current.next;
             }
@@ -495,6 +509,7 @@ public class CustomLinkedList<E> implements List<E> {
 
         @Override
         public E previous() {
+            if (!hasPrevious())throw new NoSuchElementException();
             return CustomLinkedList.this.get(--cursor);
         }
 
@@ -515,11 +530,8 @@ public class CustomLinkedList<E> implements List<E> {
 
         @Override
         public void set(E e) {
-            Node current = head;
-            for (int j = 0; j < cursor; j++) {
-                current = current.next;
-            }
-            current.value = e;
+            if (cursor == 0) throw new IllegalStateException();
+            CustomLinkedList.this.set(cursor - 1, e);
         }
 
         @Override

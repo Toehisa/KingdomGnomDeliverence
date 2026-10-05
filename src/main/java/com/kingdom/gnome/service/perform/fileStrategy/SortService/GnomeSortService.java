@@ -1,6 +1,7 @@
 package com.kingdom.gnome.service.perform.fileStrategy.SortService;
 
 import com.kingdom.gnome.dao.entity.Gnome;
+import com.kingdom.gnome.dao.utils.CustomLinkedList;
 
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class GnomeSortService {
     }
 
     public void sortByStaminaEvensOnly(List<Gnome> gnomes ) {
-        List<Gnome> evens = new ArrayList<>();
+        List<Gnome> evens = new CustomLinkedList<>();
         for(Gnome gnome : gnomes) {
             if(gnome.getRole().getBaseStamina() % 2 == 0){
                 evens.add(gnome);

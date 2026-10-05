@@ -239,12 +239,113 @@ public class CustomLinkedListTest {
 
     @Test
     void testListIterator() {
-        assertNull(list.listIterator());
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        ListIterator<String> iterator = list.listIterator();
+
+        assertNotNull(iterator, "ListIterator should not be null");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("A", iterator.next(), "First element should be 'A'");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("B", iterator.next(), "Second element should be 'B'");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("C", iterator.next(), "Third element should be 'C'");
+
+        assertFalse(iterator.hasNext(), "Iterator should not have next element");
+
+        // Test previous() method
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("C", iterator.previous(), "Previous element should be 'C'");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("B", iterator.previous(), "Previous element should be 'B'");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("A", iterator.previous(), "Previous element should be 'A'");
+
+        assertFalse(iterator.hasPrevious(), "Iterator should not have previous element");
     }
 
     @Test
     void testListIteratorWithIndex() {
-        assertNull(list.listIterator(0));
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        ListIterator<String> iterator = list.listIterator(0);
+
+        assertNotNull(iterator, "ListIterator should not be null");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("A", iterator.next(), "First element should be 'A'");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("B", iterator.next(), "Second element should be 'B'");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("C", iterator.next(), "Third element should be 'C'");
+
+        assertFalse(iterator.hasNext(), "Iterator should not have next element");
+
+        // Test previous() method
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("C", iterator.previous(), "Previous element should be 'C'");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("B", iterator.previous(), "Previous element should be 'B'");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("A", iterator.previous(), "Previous element should be 'A'");
+
+        assertFalse(iterator.hasPrevious(), "Iterator should not have previous element");
+    }
+
+    @Test
+    void testListIteratorWithIndexAtEnd() {
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        ListIterator<String> iterator = list.listIterator(list.size());
+
+        assertNotNull(iterator, "ListIterator should not be null");
+
+        assertFalse(iterator.hasNext(), "Iterator should not have next element");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("C", iterator.previous(), "Previous element should be 'C'");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("B", iterator.previous(), "Previous element should be 'B'");
+
+        assertTrue(iterator.hasPrevious(), "Iterator should have previous element");
+        assertEquals("A", iterator.previous(), "Previous element should be 'A'");
+
+        assertFalse(iterator.hasPrevious(), "Iterator should not have previous element");
+    }
+
+    @Test
+    void testListIteratorWithIndexOutOfBounds() {
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            list.listIterator(-1);
+        }, "IndexOutOfBoundsException should be thrown for negative index");
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            list.listIterator(list.size() + 1);
+        }, "IndexOutOfBoundsException should be thrown for index greater than list size");
     }
 
     @Test
@@ -286,7 +387,29 @@ public class CustomLinkedListTest {
 
     @Test
     void testIterator() {
-        assertNull(list.iterator());
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+
+        Iterator<String> iterator = list.iterator();
+
+        assertNotNull(iterator, "Iterator should not be null");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("A", iterator.next(), "First element should be 'A'");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("B", iterator.next(), "Second element should be 'B'");
+
+        assertTrue(iterator.hasNext(), "Iterator should have next element");
+        assertEquals("C", iterator.next(), "Third element should be 'C'");
+
+        assertFalse(iterator.hasNext(), "Iterator should not have next element");
+
+        assertThrows(NoSuchElementException.class, () -> {
+            iterator.next();
+        }, "NoSuchElementException should be thrown when calling next() after iterator is exhausted");
     }
 
     @Test

@@ -380,9 +380,12 @@ public class CustomLinkedListTest {
     }
 
     @Test
-    void testContains() {
+    public void testContains() {
+        List<Integer> list = new ArrayList<>();
         list.add(1);
-        assertFalse(list.contains(1));
+
+        assertTrue(list.contains(1));
+        assertFalse(list.contains(2));
     }
 
     @Test
@@ -424,51 +427,75 @@ public class CustomLinkedListTest {
     }
 
     @Test
-    void testAddAll() {
-        assertFalse(list.addAll(List.of(1, 2)));
+    public void testAddAll() {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+
+        boolean added = list.addAll(List.of(2, 3));
+
+        assertTrue(added);
+        assertEquals(3, list.size());
+
+        assertEquals(1, (int) list.get(0));
+        assertEquals(2, (int) list.get(1));
+        assertEquals(3, (int) list.get(2));
     }
 
     @Test
-    void testAddAllWithIndex() {
-        assertFalse(list.addAll(0, List.of(1, 2)));
+    public void testAddAllWithIndex() {
+        List<Integer> list = new ArrayList<>();
+        list.add(3);
+
+        boolean added = list.addAll(0, List.of(1, 2));
+
+        assertTrue(added);
+        assertEquals(3, list.size());
+        assertEquals(1, (int) list.get(0));
+        assertEquals(2, (int) list.get(1));
+        assertEquals(3, (int) list.get(2));
     }
 
     @Test
-    void testRemoveIf() {
+    public void testRemoveIf() {
+        List<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
         list.add(3);
 
-        assertTrue(list.removeIf(n -> ((Integer) n) > 1));
+        boolean removed = list.removeIf(n -> n > 1);
 
+        assertTrue(removed);
         assertEquals(1, list.size());
         assertEquals(1, (int) list.get(0));
     }
 
     @Test
-    void testReplaceAll() {
+    public void testReplaceAll() {
+        List<Integer> list = new ArrayList<>();
         list.add(1);
         list.add(2);
 
-        list.replaceAll(n -> ((Integer) n) * 2);
+        list.replaceAll(n -> n * 2);
 
         assertEquals(2, list.size());
+
         assertEquals(2, (int) list.get(0));
         assertEquals(4, (int) list.get(1));
     }
 
     @Test
     void testSort() {
+        List<Integer> list = new ArrayList<>();
         list.add(3);
         list.add(1);
         list.add(2);
 
         list.sort(Comparator.naturalOrder());
 
-        assertEquals(3, list.size());
-        assertEquals(1, (int) list.get(0));
-        assertEquals(2, (int) list.get(1));
-        assertEquals(3, (int) list.get(2));
+        assertEquals(3, list.size(), "List size should be 3");
+        assertEquals(1, (int) list.get(0), "First element should be 1");
+        assertEquals(2, (int) list.get(1), "Second element should be 2");
+        assertEquals(3, (int) list.get(2), "Third element should be 3");
     }
 
     @Test

@@ -26,10 +26,11 @@ public class RandomGnomeStrategy implements GnomeCreationStrategy {
     public List<Gnome> create(ConsoleInputReader inputReader) {
 
         System.out.println("Введите количество гномов для генерации: ");
-        int quantity = inputReader.readIntInRange("Твой ответ, хозяин: ",1,MAX_VALUE);
+        int quantity = inputReader.readIntInRange("Твой ответ, хозяин: ",1,100000);
 
         Random random = new Random();
-        List<Gnome> gnomeList = Stream.generate(() -> new Gnome.GnomeBuilder()
+
+        return Stream.generate(() -> new Gnome.GnomeBuilder()
                 .name(nameArray[random.nextInt(nameArray.length)])
                 .role(GnomeRole.values()[random.nextInt(GnomeRole.values().length)])
                 .email(new Email(emailArray[random.nextInt(emailArray.length)]
@@ -37,7 +38,5 @@ public class RandomGnomeStrategy implements GnomeCreationStrategy {
                 .build())
                 .limit(quantity)
                 .toList();
-
-        return gnomeList;
     }
 }

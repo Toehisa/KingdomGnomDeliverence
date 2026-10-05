@@ -32,10 +32,8 @@ public class RandomMenu extends Menu {
         return switch (num) {
             case 1 -> {
                 List<Gnome> freshGnomes = strategy.create(inputReader);
-                if (freshGnomes != null && !freshGnomes.isEmpty()) {
-                    gnomes.addAll(freshGnomes);
-                    System.out.println("Гномы успешно добавлены в общую армию!");
-                }
+                gnomes.addAll(freshGnomes);
+                System.out.println("Гномы успешно добавлены в общую армию!");
                 yield MenuRoutes.RANDOM;
             }
             case 2 -> {

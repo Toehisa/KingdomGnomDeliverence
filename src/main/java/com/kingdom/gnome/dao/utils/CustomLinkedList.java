@@ -11,15 +11,13 @@ import java.util.stream.Stream;
 
 public class CustomLinkedList<E> implements List<E> {
 
-    public static class Node<E> {
-        E value;
-        Node<E> prev;
-        Node<E> next;
+    private static class Node<E> {
+        private E value;
+        private Node<E> prev = null;
+        private Node<E> next = null;
 
-        public Node(E value) {
+        private Node(E value) {
             this.value = value;
-            this.prev = null;
-            this.next = null;
         }
     }
 
@@ -86,15 +84,15 @@ public class CustomLinkedList<E> implements List<E> {
 
     @Override
     public void addLast(E value) {
+        if (value == null) return;
         Node<E> newNode = new Node<>(value);
-        if (tail != null) {
-            tail.next = newNode;
+        if (head == null) {
+            tail = head = newNode;
+        } else {
             newNode.prev = tail;
+            tail.next = newNode;
+            tail = newNode;
         }
-        else {
-            head = newNode;
-        }
-        tail = newNode;
         size++;
     }
 

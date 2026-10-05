@@ -21,16 +21,15 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
     public List<Gnome> create(ConsoleInputReader inputReader) {
         System.out.println(" --- ВЫГРУЗКА ГНОМОВ ИЗ ФАЙЛА --- ");
 
-        int count = readCount(inputReader);
+        int count = inputReader.readPositiveInteger("Введите количество гномов для чтения из файла (0 для выхода): ");
         if (count == 0) {
-            System.out.println("Отмена операции.");
+            cancelMessage();
             return null;
         }
-        inputReader.readLine(""); // Съедаем символ перехода на след. строку
 
-        String filename = readFilename(inputReader);
-        if (filename == null) {
-            System.out.println("Отмена операции.");
+        String filename = inputReader.readLine("Введите имя файла (или 0 для выхода): ");
+        if (filename.trim().equals("0")) {
+            cancelMessage();
             return null;
         }
 
@@ -39,29 +38,8 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
         return handleResult(result);
     }
 
-    private int readCount(ConsoleInputReader inputReader) {
-        GnomeNumberPromt numberPromt = new GnomeNumberPromt(
-                "Введите количество гномов для чтения из файла (0 для выхода): ",
-                inputReader
-        );
-        return numberPromt.getCount();
-    }
-
-    private String readFilename(ConsoleInputReader inputReader) {
-        while (true) {
-            System.out.println("Введите имя файла (или 0 для выхода)");
-            System.out.print(">> ");
-            String filename = inputReader.readLine("").trim();
-
-            if (filename.isEmpty()) {
-                System.out.println("Ошибка: имя файла не может быть пустым.");
-                continue;
-            }
-            if (filename.equals("0")) {
-                return null;
-            }
-            return filename;
-        }
+    private static void cancelMessage() {
+        System.out.println("Отмена операции.");
     }
 
     private List<Gnome> handleResult(GnomeImportResult result) {

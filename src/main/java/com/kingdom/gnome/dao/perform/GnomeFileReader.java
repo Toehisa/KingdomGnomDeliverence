@@ -3,6 +3,7 @@ package com.kingdom.gnome.dao.perform;
 import com.kingdom.gnome.dao.entity.Email;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.entity.GnomeRole;
+import com.kingdom.gnome.dao.utils.CustomLinkedList;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,7 +22,7 @@ public class GnomeFileReader {
             final AtomicInteger errorCount = new AtomicInteger(0);
         };
 
-        List<Gnome> gnomes = new ArrayList<>();
+        List<Gnome> gnomes = new CustomLinkedList<>();
 
         System.out.println("\n---- Начинаем чтение файла ----");
         System.out.println("-------------------------------");

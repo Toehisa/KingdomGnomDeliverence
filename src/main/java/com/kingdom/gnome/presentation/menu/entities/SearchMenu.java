@@ -36,7 +36,7 @@ public class SearchMenu extends Menu{
     public MenuRoutes execute() {
         int num = inputReader.readIntInRange("Введите число: ", 1, 4);
 
-        if (num == 4) return EXIT;
+        if (num == 4) return MAIN;
 
         SearchRoutes role = SearchRoutes.fromInt(num);
         String value = inputReader.readLine("Введите значение: ");

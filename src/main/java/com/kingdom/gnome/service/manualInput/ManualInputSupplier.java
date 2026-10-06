@@ -15,39 +15,22 @@ public class ManualInputSupplier implements Supplier<Gnome> {
 
     @Override
     public Gnome get() {
-        String name = inputReader.readLetters("Введите имя: ").trim();
-        System.out.println("Выберите роль:");
+        String name = inputReader.readLetters("Введите имя гнома: ").trim();
+
+        System.out.println("\n--- Выберите роль гнома ---");
         GnomeRole[] roles = GnomeRole.values();
-        for (int j = 0; j < roles.length; j++) {
-            System.out.printf("%d. %s%n", j + 1, roles[j].getTitle());
+
+        for (int i = 0; i < roles.length; i++) {
+            System.out.printf("%d. %s%n", i + 1, roles[i].getTitle());
         }
 
-        int roleNumber;
-        while (true) {
-            System.out.print("Введите номер роли: ");
-            String input = inputReader.readLine("").trim();
-            try {
-                roleNumber = Integer.parseInt(input);
-                if (roleNumber < 1 || roleNumber > roles.length) {
-                    System.out.println(
-                            "Ошибка: выберите номер роли из списка."
-                    );
-                    continue;
-                }
-                break;
-            } catch (NumberFormatException e) {
-                System.out.println(
-                        "Ошибка: введите номер роли цифрами."
-                );
-            }
-        }
-
+        int roleNumber = inputReader.readIntInRange("Введите номер роли: ", 1, roles.length);
         GnomeRole role = roles[roleNumber - 1];
-        Gnome gnome = Gnome.builder()
+
+        return Gnome.builder()
                 .name(name)
                 .role(role)
                 .build();
-        System.out.println("Гном успешно создан!");
-        return gnome;
     }
 }
+

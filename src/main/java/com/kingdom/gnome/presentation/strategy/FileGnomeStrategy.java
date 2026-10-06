@@ -3,7 +3,6 @@ package com.kingdom.gnome.presentation.strategy;
 import java.util.List;
 
 import com.kingdom.gnome.dao.entity.Gnome;
-import com.kingdom.gnome.presentation.GnomeNumberPromt;
 import com.kingdom.gnome.dao.perform.GnomeFileReader;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeImportResult;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeImportService;
@@ -18,52 +17,35 @@ public class FileGnomeStrategy implements GnomeCreationStrategy {
     }
 
     @Override
-    public List<Gnome> create(ConsoleInputReader inputReader) {
+    public void createGnomes(ConsoleInputReader inputReader, List<Gnome> gnomes) {
         System.out.println(" --- ВЫГРУЗКА ГНОМОВ ИЗ ФАЙЛА --- ");
 
         int count = inputReader.readPositiveInteger("Введите количество гномов для чтения из файла (0 для выхода): ");
         if (count == 0) {
             cancelMessage();
-            return null;
+            return;
         }
 
         String filename = inputReader.readLine("Введите имя файла (или 0 для выхода): ");
         if (filename.trim().equals("0")) {
             cancelMessage();
-            return null;
+            return;
         }
 
-        GnomeImportResult result = importService.importGnomes(filename, count);
-
-        return handleResult(result);
+        GnomeImportResult result = importService.importGnomes(filename, count, gnomes);
+        handleResult(result);
     }
 
     private static void cancelMessage() {
         System.out.println("Отмена операции.");
     }
 
-    private List<Gnome> handleResult(GnomeImportResult result) {
+    private void handleResult(GnomeImportResult result) {
         switch (result.getStatus()) {
-            case SUCCESS:
-                System.out.println("Загружено: " + result.getRequestedCount() + " гномов из файла");
-                return result.getGnomes();
-
-            case PARTIAL:
-                System.out.println("В файле только " + result.getGnomes().size()
-                        + " гномов. Загружены все.");
-                return result.getGnomes();
-
-            case FILE_NOT_FOUND:
-                System.out.println("Ошибка: файл '" + result.getFilename() + "' не найден");
-                System.out.println("Поместите файл в папку resources/ проекта");
-                return null;
-
-            case EMPTY_DATA:
-                System.out.println("Ошибка: в файле нет корректных данных");
-                return null;
-
-            default:
-                return null;
+            case SUCCESS -> System.out.printf("Загружено: %s гномов из файла", result.getRequestedCount());
+            case PARTIAL -> System.out.printf("В файле только %s гномов.\nЗагружены все.\n", result.getGnomes().size());
+            case FILE_NOT_FOUND -> System.out.printf("Ошибка: файл '%s' не найден\nПоместите файл в папку resources/ проекта", result.getFilename());
+            case EMPTY_DATA -> System.out.println("Ошибка: в файле нет корректных данных");
         }
     }
 }

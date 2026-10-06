@@ -37,3 +37,4 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/sorted_gnomes.txt

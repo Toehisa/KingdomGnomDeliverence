@@ -1,22 +1,25 @@
 package com.kingdom.gnome.presentation.menu.providers.menu;
 
-import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.Menu;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
+import com.kingdom.gnome.service.GnomeDataService;
+import com.kingdom.gnome.service.GnomePrintService;
 
-import java.util.List;
 import java.util.Map;
 
 abstract public class MenuProvider {
     protected int startIdx;
-    protected final List<Gnome> gnomes;
+    protected final GnomeDataService dataService;
+    protected final GnomePrintService printService;
 
-    public MenuProvider(List<Gnome> gnomes) {
-        this.gnomes = gnomes;
+    public MenuProvider(GnomeDataService dataService, GnomePrintService printService) {
+        this.dataService = dataService;
+        this.printService = printService;
         this.startIdx = 0;
     }
-    public MenuProvider(int startIdx, List<Gnome> gnomes) {
-        this.gnomes = gnomes;
+    public MenuProvider(int startIdx, GnomeDataService dataService, GnomePrintService printService) {
+        this.dataService = dataService;
+        this.printService = printService;
         this.startIdx = startIdx;
     }
 

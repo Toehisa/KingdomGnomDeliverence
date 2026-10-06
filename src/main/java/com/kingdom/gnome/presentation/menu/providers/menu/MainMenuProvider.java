@@ -1,18 +1,16 @@
 package com.kingdom.gnome.presentation.menu.providers.menu;
 
+import com.kingdom.gnome.service.GnomeDataService;
+import com.kingdom.gnome.service.GnomePrintService;
 import com.kingdom.gnome.service.counting.GnomeCounterService;
-import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;
-import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.*;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.FileGnomeStrategy;
 import com.kingdom.gnome.presentation.strategy.ManualGnomeStrategy;
 import com.kingdom.gnome.presentation.strategy.RandomGnomeStrategy;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
-import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
 import static com.kingdom.gnome.presentation.menu.routes.MenuRoutes.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
 
@@ -21,8 +19,8 @@ public class MainMenuProvider extends MenuProvider {
     private final ConsoleInputReader inputReader;
     private final GnomeCounterService counterService;
 
-    public MainMenuProvider(List<Gnome> gnomes, ConsoleInputReader inputReader, ForkJoinPool pool) {
-        super(gnomes);
+    public MainMenuProvider(GnomeDataService dataService, ConsoleInputReader inputReader, GnomePrintService printService, ForkJoinPool pool) {
+        super(dataService, printService);
         this.inputReader = inputReader;
         this.counterService = new GnomeCounterService(pool);
     }
@@ -30,12 +28,12 @@ public class MainMenuProvider extends MenuProvider {
     public Map<MenuRoutes, Menu> provideMenus() {
         return Map.of(
                 MAIN, new MainMenu(MAIN, inputReader),
-                RANDOM, new RandomMenu(RANDOM, new RandomGnomeStrategy(), gnomes, inputReader),
-                MANUAL, new ManualMenu(MANUAL, new ManualGnomeStrategy(), gnomes, inputReader),
-                FILE, new FileMenu(FILE, new FileGnomeStrategy(), gnomes, inputReader),
-                SORT, new SortMenu(SORT, new GnomeSortService(), gnomes, inputReader, new GnomeFileWriter("sorted_gnomes.txt")),
-                GNOMES, new GnomesMenu(GNOMES, gnomes),
-                SEARCH, new SearchMenu(SEARCH, counterService, gnomes, inputReader),
+                RANDOM, new RandomMenu(RANDOM, new RandomGnomeStrategy(), dataService, printService, inputReader),
+                MANUAL, new ManualMenu(MANUAL, new ManualGnomeStrategy(), dataService, printService, inputReader),
+                FILE, new FileMenu(FILE, new FileGnomeStrategy(), dataService, printService, inputReader),
+                SORT, new SortMenu(SORT, dataService, printService, inputReader),
+                GNOMES, new GnomesMenu(GNOMES, dataService, printService),
+                SEARCH, new SearchMenu(SEARCH, counterService, dataService, inputReader),
                 EXIT, new ExitMenu()
         );
     }

@@ -7,7 +7,7 @@ import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import java.util.function.Supplier;
 
 public class ManualInputSupplier implements Supplier<Gnome> {
-    private ConsoleInputReader inputReader;
+    private final ConsoleInputReader inputReader;
 
     public ManualInputSupplier(ConsoleInputReader inputReader) {
         this.inputReader = inputReader;

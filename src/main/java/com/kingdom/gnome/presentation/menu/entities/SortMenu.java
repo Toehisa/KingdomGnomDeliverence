@@ -1,49 +1,26 @@
 package com.kingdom.gnome.presentation.menu.entities;
 
-import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
-import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
-import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;
-
-import java.util.List;
-import java.util.function.BiConsumer;
+import com.kingdom.gnome.service.GnomeDataService;
+import com.kingdom.gnome.service.GnomePrintService;
+import com.kingdom.gnome.service.sorting.SortOption;
 
 public class SortMenu extends Menu {
-    private enum SortOption {
-        BY_NAME("По имени", GnomeSortService::sortByName),
-        BY_ROLE("По роли", GnomeSortService::sortByRole),
-        BY_NAME_AND_ROLE("По имени и роли", GnomeSortService::sortByNameAndRole),
-        BY_STAMINA_EVENS("По стамине, оставляя нечетные на месте", GnomeSortService::sortByStaminaEvensOnly);
-
-        private final String label;
-        private final BiConsumer<GnomeSortService, List<Gnome>> action;
-
-        SortOption(String label, BiConsumer<GnomeSortService, List<Gnome>> action) {
-            this.label = label;
-            this.action = action;
-        }
-    }
-
-    private static final SortOption[] OPTIONS = SortOption.values();
-    private static final int BACK = OPTIONS.length + 1;
-
-    private final List<Gnome> gnomes;
+    private final GnomeDataService dataService;
+    private final GnomePrintService printService;
     private final ConsoleInputReader inputReader;
-    private final GnomeSortService sortService;
-    private final GnomeFileWriter fileWriter;
 
-    public SortMenu(MenuRoutes routeID, GnomeSortService sortService, List<Gnome> gnomes, ConsoleInputReader inputReader,GnomeFileWriter fileWriter) {
+    public SortMenu(MenuRoutes routeID, GnomeDataService dataService, GnomePrintService printService, ConsoleInputReader inputReader) {
         super(routeID);
-        this.gnomes = gnomes;
+        this.dataService = dataService;
+        this.printService = printService;
         this.inputReader = inputReader;
-        this.sortService = sortService;
-        this.fileWriter = fileWriter;
     }
 
     @Override
     public boolean canEnter() {
-        return !gnomes.isEmpty();
+        return !dataService.isEmpty();
     }
 
     @Override
@@ -54,28 +31,29 @@ public class SortMenu extends Menu {
     @Override
     public void show() {
         System.out.println("\n--- Сортировка орды гномов ---");
-        for (int i = 0; i < OPTIONS.length; i++) {
-            System.out.println((i + 1) + ". " + OPTIONS[i].label);
+        SortOption[] types = SortOption.values();
+        for (int i = 0; i < types.length; i++) {
+            System.out.println((i + 1) + ". " + types[i].getLabel());
         }
-        System.out.println(BACK + ". Вернуться на главную");
+        System.out.println((types.length + 1) + ". Вернуться на главную");
     }
 
     @Override
     public MenuRoutes execute() {
-        int num = inputReader.readIntInRange("Твой ответ: ", 1, BACK);
 
-        if (num == BACK) {
+        int backOption = SortOption.values().length + 1;
+        int num = inputReader.readIntInRange("Твой ответ: ", 1, backOption);
+
+        if (num == backOption) {
             return MenuRoutes.MAIN;
         }
 
-        OPTIONS[num - 1]
-                .action
-                .accept(sortService, gnomes);
+        SortOption selectedType = SortOption.values()[num - 1];
 
-        fileWriter.appendGnomes(gnomes);
-
-        System.out.println("Гномы успешно отсортированы и записаны в файл");
+        dataService.sortAndSave(selectedType);
+        printService.showMessage("Гномы успешно отсортированы и записаны в файл");
 
         return MenuRoutes.SORT;
     }
 }
+

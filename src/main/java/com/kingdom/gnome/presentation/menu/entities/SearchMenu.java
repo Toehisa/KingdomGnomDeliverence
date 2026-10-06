@@ -4,6 +4,8 @@ import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.menu.routes.SearchRoutes;
+import com.kingdom.gnome.service.GnomeDataService;
+import com.kingdom.gnome.service.GnomePrintService;
 import com.kingdom.gnome.service.counting.GnomeCounterService;
 
 import java.util.List;
@@ -13,13 +15,13 @@ import static com.kingdom.gnome.presentation.menu.routes.MenuRoutes.MAIN;
 
 public class SearchMenu extends Menu{
     private final GnomeCounterService counterService;
-    private final List<Gnome> gnomes;
+    private final GnomeDataService dataService;
     private final ConsoleInputReader inputReader;
 
-    public SearchMenu(MenuRoutes routeID, GnomeCounterService counterService, List<Gnome> gnomes, ConsoleInputReader inputReader) {
+    public SearchMenu(MenuRoutes routeID, GnomeCounterService counterService, GnomeDataService dataService, ConsoleInputReader inputReader) {
         super(routeID);
         this.counterService = counterService;
-        this.gnomes = gnomes;
+        this.dataService = dataService;
         this.inputReader = inputReader;
     }
 
@@ -41,7 +43,7 @@ public class SearchMenu extends Menu{
         SearchRoutes role = SearchRoutes.fromInt(num);
         String value = inputReader.readLine("Введите значение: ");
 
-        int count = counterService.getOccurrencesCount(role.name(), value, gnomes);
+        int count = counterService.getOccurrencesCount(role.name(), value, dataService.getGnomes());
 
         System.out.printf("Количество вхождений %s - %d\n", value, count);
 

@@ -1,15 +1,21 @@
-package com.kingdom.gnome.dao.entity.Random;
+package com.kingdom.gnome.presentation.menu.providers.random;
 
-public class GnomeNames {
-    private static final String[] nameArray = {"Дуволла", "Кадди Шестерёнка", "Палин Колбель", "Лилли Колбель",
+import java.util.Random;
+
+public enum GnomeNamesProvider {
+    NAMES;
+
+    private final String[] nameArray = {"Дуволла", "Кадди Шестерёнка", "Палин Колбель", "Лилли Колбель",
             "Сейбин Шестерёнка", "Фиппи Звонкомолот", "Палин Самоцвет", "Дженго Стеклодув", "Намфудл", "Кадди Часовщик",
             "Зимбл Стеклодув", "Тилла Медношлем", "Лилли Звонкомолот", "Низзи Вспышка", "Эльдон Часовщик",
             "Алстон Часовщик", "Роондар", "Дзин Пружинка", "Орин Хитроумник", "Пиппа", "Танна Гладкоруч", "Тилла",
             "Мардноттл Пружинка", "Орла", "Тилла Краснокамень", "Орин Колбель", "Фонкин", "Фиппи Светлячок",
             "Куилл Стеклодув", "Виггенс Самоцвет", "Фабблдин Кварцель", "Сверти Вспышка", "Бимпноттин Светлячок",
             "Куилл Хитрозвон", "Алстон Шестерёнка", "Мардноттл"};
+    private final int poolSize = nameArray.length;
 
-    public static String[] getNameArray() {
-        return nameArray;
+
+    public String provideNameBySeed(Random random) {
+        return nameArray[random.nextInt(poolSize)];
     }
 }

@@ -13,23 +13,23 @@ public class GnomeImportService {
         this.fileReader = fileReader;
     }
 
-    public GnomeImportResult importGnomes(String filename, int count) {
+    public GnomeImportResult importGnomes(String filename, int count, List<Gnome> gnomes) {
         File file = fileReader.findFile(filename);
 
         if (file == null || !file.exists()) {
             return GnomeImportResult.fileNotFound(count, filename);
         }
 
-        List<Gnome> gnomes = fileReader.readGnomesFromFile(file, count);
+        List<Gnome> loadedGnomes = fileReader.readGnomesFromFile(file, count);
 
-        if (gnomes.isEmpty()) {
+        if (loadedGnomes.isEmpty()) {
             return GnomeImportResult.emptyData(count, filename);
-        }
-
-        if (gnomes.size() >= count) {
+        } else if (loadedGnomes.size() >= count) {
+            gnomes.addAll(loadedGnomes);
             return GnomeImportResult.success(gnomes, count, filename);
+        } else {
+            gnomes.addAll(loadedGnomes);
+            return GnomeImportResult.partial(gnomes, count, filename);
         }
-
-        return GnomeImportResult.partial(gnomes, count, filename);
     }
 }

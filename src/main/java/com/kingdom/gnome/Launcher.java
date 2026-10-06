@@ -2,8 +2,8 @@ package com.kingdom.gnome;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.utils.CustomLinkedList;
-import com.kingdom.gnome.presentation.menu.providers.MainMenuProvider;
-import com.kingdom.gnome.presentation.menu.providers.MenuProvider;
+import com.kingdom.gnome.presentation.menu.providers.menu.MainMenuProvider;
+import com.kingdom.gnome.presentation.menu.providers.menu.MenuProvider;
 import com.kingdom.gnome.presentation.menu.selectors.MainMenuSelector;
 import com.kingdom.gnome.presentation.menu.selectors.MenuSelector;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;

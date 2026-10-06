@@ -2,20 +2,24 @@ package com.kingdom.gnome.presentation.menu.entities;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
+import com.kingdom.gnome.service.GnomeDataService;
+import com.kingdom.gnome.service.GnomePrintService;
 
 import java.util.List;
 
 public class GnomesMenu extends Menu {
-    private final List<Gnome> gnomes;
+    private final GnomeDataService dataService;
+    private final GnomePrintService printService;
 
-    public GnomesMenu(MenuRoutes routeID, List<Gnome> gnomes) {
+    public GnomesMenu(MenuRoutes routeID, GnomeDataService dataService, GnomePrintService printService) {
         super(routeID);
-        this.gnomes = gnomes;
+        this.dataService = dataService;
+        this.printService = printService;
     }
 
     @Override
     public boolean canEnter() {
-        return !gnomes.isEmpty();
+        return !dataService.isEmpty();
     }
 
     @Override
@@ -25,11 +29,7 @@ public class GnomesMenu extends Menu {
 
     @Override
     public void show() {
-        System.out.println("--- Состав армии ---");
-        for (int i = 0; i < gnomes.size(); i++) {
-            System.out.println((i + 1) + ". " + gnomes.get(i));
-        }
-        System.out.println("--------------------");
+        printService.showGnomes();
     }
 
     @Override

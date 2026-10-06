@@ -1,28 +1,28 @@
 package com.kingdom.gnome.presentation.menu.entities;
 
-import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
-
-import static com.kingdom.gnome.presentation.menu.providers.random.GnomeEmailProvider.EMAILS;
-
-import java.util.List;
+import com.kingdom.gnome.service.GnomeDataService;
+import com.kingdom.gnome.service.GnomePrintService;
 
 public class ManualMenu extends Menu {
     private final GnomeCreationStrategy strategy;
-    private final List<Gnome> gnomes;
+    private final GnomeDataService dataService;
+    private final GnomePrintService printService;
     private final ConsoleInputReader inputReader;
 
     public ManualMenu(
             MenuRoutes routeID,
             GnomeCreationStrategy strategy,
-            List<Gnome> gnomes,
+            GnomeDataService dataService,
+            GnomePrintService printService,
             ConsoleInputReader inputReader
     ) {
         super(routeID);
         this.strategy = strategy;
-        this.gnomes = gnomes;
+        this.dataService = dataService;
+        this.printService = printService;
         this.inputReader = inputReader;
     }
     @Override
@@ -37,29 +37,17 @@ public class ManualMenu extends Menu {
     public MenuRoutes execute() {
         int num = inputReader.readIntInRange("Твой ответ, хозяин: ",1,3);
         return switch (num) {
-            case 1 -> startGeneration();
-            case 2 -> showGnomes();
-            case 3 -> MenuRoutes.MAIN;
-            default -> null;
-        };
-    }
-    //пока что вынес сюда, потом уже по солиду в другие сущности вынесу
-    private MenuRoutes startGeneration() {
-        strategy.createGnomes(inputReader, gnomes);
-        System.out.println("Ручной продув успех, выдавлены из пробирки!");
-        return MenuRoutes.MANUAL;
-    }
-    //пока что вынес сюда, потом уже по солиду в другие сущности вынесу
-    private MenuRoutes showGnomes() {
-        System.out.println("--- Состав армии ---");
-        if (gnomes.isEmpty()) {
-            System.out.println("Армия пуста. мало атмосфер дуешь!");
-        } else {
-            for (Gnome g : gnomes) {
-                System.out.println(g);
+            case 1 -> {
+                dataService.generateGnomes(strategy, inputReader);
+                printService.showMessage("Ручной продув успех, выдавлены из пробирки!");
+                yield MenuRoutes.MANUAL;
             }
-        }
-        System.out.println("--------------------");
-        return MenuRoutes.MANUAL;
+            case 2 -> {
+                printService.showGnomes();
+                yield MenuRoutes.MANUAL;
+            }
+            case 3 -> MenuRoutes.MAIN;
+            default -> throw new IllegalStateException("Сломалась валидация в readIntInRange");
+        };
     }
 }

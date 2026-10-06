@@ -8,10 +8,7 @@ public class MainMenu extends Menu {
 
     private final ConsoleInputReader inputReader;
 
-    public MainMenu(
-            MenuRoutes routeID,
-            ConsoleInputReader inputReader
-    ) {
+    public MainMenu(MenuRoutes routeID, ConsoleInputReader inputReader) {
         super(routeID);
         this.inputReader = inputReader;
     }

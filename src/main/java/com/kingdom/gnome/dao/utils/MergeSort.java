@@ -1,4 +1,4 @@
-package com.kingdom.gnome.service.sorting;
+package com.kingdom.gnome.dao.utils;
 
 import java.util.Comparator;
 

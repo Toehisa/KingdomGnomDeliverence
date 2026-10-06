@@ -1,10 +1,9 @@
-package com.kingdom.gnome.presentation.menu.providers;
+package com.kingdom.gnome.presentation.menu.providers.menu;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.Menu;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

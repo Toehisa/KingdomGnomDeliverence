@@ -1,4 +1,4 @@
-package com.kingdom.gnome.presentation.menu.providers;
+package com.kingdom.gnome.presentation.menu.providers.menu;
 
 import com.kingdom.gnome.service.counting.GnomeCounterService;
 import com.kingdom.gnome.service.perform.fileStrategy.GnomeFileWriter;

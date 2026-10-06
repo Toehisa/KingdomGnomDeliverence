@@ -1,42 +1,31 @@
 package com.kingdom.gnome.presentation.strategy;
 
-import com.kingdom.gnome.dao.entity.Email;
 import com.kingdom.gnome.dao.entity.Gnome;
-import com.kingdom.gnome.dao.entity.GnomeRole;
-import com.kingdom.gnome.dao.entity.Random.EmailDomains;
-import com.kingdom.gnome.dao.entity.Random.EmailNames;
-import com.kingdom.gnome.dao.entity.Random.GnomeNames;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
-import java.util.ArrayList;
+import static com.kingdom.gnome.presentation.menu.providers.random.GnomeNamesProvider.NAMES;
+import static com.kingdom.gnome.presentation.menu.providers.random.GnomeEmailProvider.EMAILS;
+import static com.kingdom.gnome.presentation.menu.providers.random.GnomeRoleProvider.ROLES;
+
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.lang.Integer.MAX_VALUE;
-
 public class RandomGnomeStrategy implements GnomeCreationStrategy {
-
-    private final String[] nameArray = GnomeNames.getNameArray();
-    private final String[] emailArray = EmailNames.getEmailArray();
-    private final String[] domainArray = EmailDomains.getDomainArray();
+    private static final Random rnd = new Random();
 
     @Override
-    public List<Gnome> create(ConsoleInputReader inputReader) {
+    public void createGnomes(ConsoleInputReader inputReader, List<Gnome> gnomes) {
+        int quantity = inputReader.readIntInRange("Введите количество гномов для генерации: ",1,1000);
 
-        System.out.println("Введите количество гномов для генерации: ");
-        int quantity = inputReader.readIntInRange("Твой ответ, хозяин: ",1,100000);
-
-        Random random = new Random();
-
-        return Stream.generate(() -> new Gnome.GnomeBuilder()
-                .name(nameArray[random.nextInt(nameArray.length)])
-                .role(GnomeRole.values()[random.nextInt(GnomeRole.values().length)])
-                .email(new Email(emailArray[random.nextInt(emailArray.length)]
-                        + domainArray[random.nextInt(domainArray.length)]))
-                .build())
+        Stream.generate(
+                () -> new Gnome.GnomeBuilder()
+                        .name(NAMES.provideNameBySeed(rnd))
+                        .role(ROLES.provideRoleBySeed(rnd))
+                        .email(EMAILS.provideEmailBySeed(rnd))
+                        .build()
+                )
                 .limit(quantity)
-                .toList();
+                .forEach(gnomes::add);
     }
 }

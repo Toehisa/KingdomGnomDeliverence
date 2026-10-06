@@ -1,8 +1,7 @@
 package com.kingdom.gnome.presentation.menu.selectors;
 
-import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.entities.Menu;
-import com.kingdom.gnome.presentation.menu.providers.MenuProvider;
+import com.kingdom.gnome.presentation.menu.providers.menu.MenuProvider;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 
 import java.util.*;

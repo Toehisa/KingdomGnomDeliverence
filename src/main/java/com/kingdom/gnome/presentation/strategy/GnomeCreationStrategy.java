@@ -7,5 +7,5 @@ import java.util.List;
 import com.kingdom.gnome.dao.entity.Gnome;
 
 public interface GnomeCreationStrategy {
-    List<Gnome> create(ConsoleInputReader inputReader);
+    void createGnomes(ConsoleInputReader inputReader, List<Gnome> gnomes);
 }

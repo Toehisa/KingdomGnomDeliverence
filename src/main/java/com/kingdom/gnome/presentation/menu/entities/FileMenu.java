@@ -5,11 +5,12 @@ import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileMenu extends Menu {
     private final GnomeCreationStrategy strategy;
-    private final List<Gnome> gnomes; // Ссылка на нашу общую армию
+    private final List<Gnome> gnomes;
     private final ConsoleInputReader inputReader;
 
     public FileMenu(MenuRoutes routeID, GnomeCreationStrategy strategy, List<Gnome> gnomes, ConsoleInputReader inputReader) {
@@ -31,33 +32,33 @@ public class FileMenu extends Menu {
     public MenuRoutes execute() {
         int num = inputReader.readIntInRange("Твой ответ, хозяин: ",1,3);
         return switch (num) {
-            case 1 -> {
-                List<Gnome> freshGnomes = strategy.create(inputReader);
-
-                if (freshGnomes != null && !freshGnomes.isEmpty()) {
-                    gnomes.addAll(freshGnomes);
-                    System.out.println("Гномы успешно десериализованы и добавлены в армию!");
-                }
-                yield MenuRoutes.FILE;
-            }
-            case 2 -> {
-                System.out.println("--- Состав армии ---");
-                if (gnomes.isEmpty()) {
-                    System.out.println("В RAM пока пусто.");
-                } else {
-                    for (Gnome g : gnomes) {
-                        System.out.println(g);
-                    }
-                }
-                System.out.println("--------------------");
-                yield MenuRoutes.FILE;
-            }
+            case 1 -> startGeneration();
+            case 2 -> showGnomes();
             case 3 -> MenuRoutes.MAIN;
-
             default -> {
-                System.out.println("Произошел GnomiyChackChackException. Попробуй еще раз.");
+                System.out.println("Произошел GnomicChackChackException. Попробуй еще раз.");
                 yield MenuRoutes.FILE;
             }
         };
+    }
+
+    //пока что вынес сюда, потом уже по солиду в другие сущности вынесу
+    private MenuRoutes startGeneration() {
+        strategy.createGnomes(inputReader, gnomes);
+        System.out.println("Гномы успешно десериализованы и добавлены в армию!");
+        return MenuRoutes.FILE;
+    }
+    //пока что вынес сюда, потом уже по солиду в другие сущности вынесу
+    private MenuRoutes showGnomes() {
+        System.out.println("--- Состав армии ---");
+        if (gnomes.isEmpty()) {
+            System.out.println("В RAM пока пусто.");
+        } else {
+            for (Gnome g : gnomes) {
+                System.out.println(g);
+            }
+        }
+        System.out.println("--------------------");
+        return MenuRoutes.FILE;
     }
 }

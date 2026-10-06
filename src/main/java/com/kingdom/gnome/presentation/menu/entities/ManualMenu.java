@@ -3,8 +3,9 @@ package com.kingdom.gnome.presentation.menu.entities;
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.presentation.menu.routes.MenuRoutes;
 import com.kingdom.gnome.presentation.strategy.GnomeCreationStrategy;
-import com.kingdom.gnome.service.perform.fileStrategy.SortService.GnomeSortService;
 import com.kingdom.gnome.presentation.input.ConsoleInputReader;
+
+import static com.kingdom.gnome.presentation.menu.providers.random.GnomeEmailProvider.EMAILS;
 
 import java.util.List;
 
@@ -34,36 +35,31 @@ public class ManualMenu extends Menu {
 
     @Override
     public MenuRoutes execute() {
-
         int num = inputReader.readIntInRange("Твой ответ, хозяин: ",1,3);
         return switch (num) {
-            case 1 -> {
-                List<Gnome> freshGnomes = strategy.create(inputReader);
-
-                if (freshGnomes != null && !freshGnomes.isEmpty()) {
-                    gnomes.addAll(freshGnomes);
-                    System.out.println("Ручной продув успех, выдавлены из пробирки!");
-                }
-                yield MenuRoutes.MANUAL;
-            }
-            case 2 -> {
-                System.out.println("--- Состав армии ---");
-                if (gnomes.isEmpty()) {
-                    System.out.println("Армия пуста. мало атмосфер дуешь!");
-                } else {
-                    for (Gnome g : gnomes) {
-                        System.out.println(g);
-                    }
-                }
-                System.out.println("--------------------");
-                yield MenuRoutes.MANUAL;
-            }
+            case 1 -> startGeneration();
+            case 2 -> showGnomes();
             case 3 -> MenuRoutes.MAIN;
-
-            default -> {
-                System.out.println("Неизвестная команда. Попробуй еще раз.");
-                yield MenuRoutes.MANUAL;
-            }
+            default -> null;
         };
+    }
+    //пока что вынес сюда, потом уже по солиду в другие сущности вынесу
+    private MenuRoutes startGeneration() {
+        strategy.createGnomes(inputReader, gnomes);
+        System.out.println("Ручной продув успех, выдавлены из пробирки!");
+        return MenuRoutes.MANUAL;
+    }
+    //пока что вынес сюда, потом уже по солиду в другие сущности вынесу
+    private MenuRoutes showGnomes() {
+        System.out.println("--- Состав армии ---");
+        if (gnomes.isEmpty()) {
+            System.out.println("Армия пуста. мало атмосфер дуешь!");
+        } else {
+            for (Gnome g : gnomes) {
+                System.out.println(g);
+            }
+        }
+        System.out.println("--------------------");
+        return MenuRoutes.MANUAL;
     }
 }

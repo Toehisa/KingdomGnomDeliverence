@@ -8,11 +8,9 @@ import com.kingdom.gnome.dao.utils.CustomLinkedList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 public class GnomeFileReader {
     public List<Gnome> readGnomesFromFile(File file, int count){
@@ -27,25 +25,25 @@ public class GnomeFileReader {
         System.out.println("\n---- Начинаем чтение файла ----");
         System.out.println("-------------------------------");
 
-        try(Stream<String> lines = new BufferedReader(new FileReader(file)).lines()) {
-            lines.anyMatch(line -> {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            reader.lines().anyMatch(line -> {
                 stat.lineNumber.getAndIncrement();
-                if(line.isBlank() || line.contains("#")){
+                if (line.isBlank() || line.contains("#")) {
                     return false;
                 }
                 try {
                     String[] parts = line.split(";");
-                    if(parts.length != 3) {
+                    if (parts.length != 3) {
                         throw new IllegalStateException("Неверный формат");
                     }
                     Gnome gnome = new Gnome.GnomeBuilder()
-                            .name(parts[0])
-                            .role(GnomeRole.fromTitle(parts[1]))
-                            .email(new Email(parts[2]))
+                            .name(parts[0].trim())
+                            .role(GnomeRole.fromTitle(parts[1].trim()))
+                            .email(new Email(parts[2].trim()))
                             .build();
                     gnomes.add(gnome);
                     stat.successfulCount.getAndIncrement();
-                    if(stat.successfulCount.intValue() == count) {
+                    if (stat.successfulCount.intValue() == count) {
                         return true;
                     }
                 } catch (Exception e) {

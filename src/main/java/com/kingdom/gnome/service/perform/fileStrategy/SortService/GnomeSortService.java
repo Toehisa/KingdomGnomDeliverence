@@ -2,31 +2,30 @@ package com.kingdom.gnome.service.perform.fileStrategy.SortService;
 
 import com.kingdom.gnome.dao.entity.Gnome;
 import com.kingdom.gnome.dao.utils.CustomLinkedList;
+import com.kingdom.gnome.dao.utils.MergeSort;
 
 import java.util.*;
 
 public class GnomeSortService {
-
     public void sortByName(List<Gnome> gnomes) {
-        gnomes.sort(
+        mergeSort(
+                gnomes,
                 Comparator.comparing(Gnome::getName)
         );
     }
 
     public void sortByRole(List<Gnome> gnomes) {
-        gnomes.sort(
-                Comparator.comparing(
-                        gnome -> gnome.getRole().getTitle()
-                )
+        mergeSort(
+                gnomes,
+                Comparator.comparing(gnome -> gnome.getRole().getTitle())
         );
     }
 
     public void sortByNameAndRole(List<Gnome> gnomes) {
-        gnomes.sort(
+        mergeSort(
+                gnomes,
                 Comparator.comparing(Gnome::getName)
-                        .thenComparing(
-                                gnome -> gnome.getRole().getTitle()
-                        )
+                        .thenComparing(gnome -> gnome.getRole().getTitle())
         );
     }
 
@@ -38,13 +37,29 @@ public class GnomeSortService {
             }
         }
 
-        evens.sort(Gnome::compareByStamina);
+        mergeSort(
+                evens,
+                Gnome::compareByStamina
+        );
 
         int evenIndex = 0;
         for (int i = 0; i < gnomes.size(); i++) {
             if(gnomes.get(i).getRole().getBaseStamina() % 2 == 0) {
                 gnomes.set(i, evens.get(evenIndex++));
             }
+        }
+    }
+
+    private void mergeSort(List<Gnome> gnomes, Comparator<Gnome> comparator) {
+        Gnome[] array = gnomes.toArray(new Gnome[0]);
+
+        MergeSort<Gnome> mergeSort =
+                new MergeSort<>(array, comparator);
+
+        mergeSort.sort();
+
+        for (int i = 0; i < array.length; i++) {
+            gnomes.set(i, array[i]);
         }
     }
 }

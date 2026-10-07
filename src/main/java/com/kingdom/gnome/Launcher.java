@@ -22,7 +22,7 @@ public class Launcher {
         try (Scanner scanner = new Scanner(System.in)){
             MenuProvider menuProvider = buildMenuProvider(scanner, additionalThreadPool);
             MenuSelector menuSelector = new MainMenuSelector(menuProvider);
-            menuSelector.run(scanner);
+            menuSelector.run();
         } finally {
             additionalThreadPool.shutdown();
         }

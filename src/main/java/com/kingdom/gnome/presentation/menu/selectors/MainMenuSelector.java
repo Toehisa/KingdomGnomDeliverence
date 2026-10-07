@@ -39,7 +39,7 @@ public class MainMenuSelector extends MenuSelector {
 
 
     @Override
-    public void run(Scanner scanner) {
+    public void run() {
         do {
             showMenu();
             var route = currentMenu().execute();

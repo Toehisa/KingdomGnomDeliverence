@@ -20,5 +20,5 @@ abstract public class MenuSelector {
     abstract protected void showMenu();
     abstract protected void switchMenu(MenuRoutes route);
     abstract protected Menu currentMenu();
-    abstract public void run(Scanner scanner);
+    abstract public void run();
 }

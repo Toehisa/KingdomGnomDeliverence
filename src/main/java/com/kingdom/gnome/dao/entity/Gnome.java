@@ -55,7 +55,7 @@ public final class Gnome {
         }
 
         public Gnome build() {
-            if (name == null || name.isBlank() || role == null || email == null) {throw  new IllegalStateException("Дай имя гному и роль");}
+            if (name == null || name.isBlank() || role == null) {throw  new IllegalStateException("Дай имя гному и роль");}
             return new Gnome(name, role, email);
         }
     }
